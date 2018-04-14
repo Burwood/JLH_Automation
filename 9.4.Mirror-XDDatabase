@@ -1,0 +1,74 @@
+<#
+.SYNOPSIS
+    Enables SQL mirroring on XD Databases using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter XD_SiteDBName
+    Name of the new XenDesktop site database
+.Parameter XD_LogDBName
+    Name of the new XenDesktop configuration logging database
+.Parameter XD_MonitorDBName
+    Name of the new XenDesktop Monitoring database
+.Parameter XD_DNSDomainName
+    Fully Qualified DNS domain name of the database servers
+.Parameter XD_PrimarySQLHostname
+    Hostname of primary SQL database server
+.Parameter XD_PrimarySQLInstanceName
+    Optional Name of primary SQL database server instance
+.Parameter XD_SecondarySQLHostname
+    Hostname of Mirror partner SQL database server
+.Parameter XD_SecondarySQLInstanceName
+    Optional name of Mirror partner SQL database server instance
+.Parameter XD_WitnessSQLHostname
+    Hostname of Witness partner SQL database server
+.Parameter XD_WitnessSQLInstanceName
+    Optional name of Witness partner SQL database server instance
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $XD_SiteDBName,
+    [Parameter(Mandatory=$true)][string] $XD_LogDBName,
+    [Parameter(Mandatory=$true)][string] $XD_MonitorDBName,
+    [Parameter(Mandatory=$true)][string] $XD_DNSDomainName,
+    [Parameter(Mandatory=$true)][string] $XD_PrimarySQLHostname,
+    [Parameter(Mandatory=$false)][string] $XD_PrimarySQLInstanceName,
+    [Parameter(Mandatory=$false)][string] $XD_PrimarySQLEndpointPort = "5022",
+    [Parameter(Mandatory=$true)][string] $XD_SecondarySQLHostname,
+    [Parameter(Mandatory=$false)][string] $XD_SecondarySQLInstanceName,
+    [Parameter(Mandatory=$false)][string] $XD_SecondarySQLEndpointPort = "5022",
+    [Parameter(Mandatory=$true)][string] $XD_WitnessSQLHostname,
+    [Parameter(Mandatory=$false)][string] $XD_WitnessSQLInstanceName,
+    [Parameter(Mandatory=$false)][string] $XD_WitnessSQLEndpointPort = "5022"
+)
+
+try {
+    import-module "$env:programfiles\Microsoft SQL Server\120\Tools\Powershell\Modules\sqlps"
+    set-location $env:systemdrive
+    
+    $XD_PrimarySQLFQDN = "$XD_PrimarySQLHostname.$XD_DNSDomainName"
+    $XD_SecondarySQLFQDN = "$XD_SecondarySQLHostname.$XD_DNSDomainName"
+    $XD_WitnessSQLFQDN = "$XD_WitnessSQLHostname.$XD_DNSDomainName"
+
+    Write-Host "Enabling mirroring on $XD_SiteDBName"
+    cwcSQL\Set-MirrorPartner -DatabaseName $XD_SiteDBName -DatabaseServer $XD_SecondarySQLFQDN -DatabaseInstanceName $XD_SecondarySQLInstanceName -MirrorServer $XD_PrimarySQLFQDN -MirrorInstanceName $XD_PrimarySQLInstanceName -EndpointPort $XD_PrimarySQLEndpointPort
+    cwcSQL\Set-MirrorPartner -DatabaseName $XD_SiteDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -MirrorServer $XD_SecondarySQLFQDN -MirrorInstanceName $XD_SecondarySQLInstanceName -EndpointPort $XD_SecondarySQLEndpointPort
+    cwcSQL\Set-MirrorWitness -DatabaseName $XD_SiteDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -WitnessServer $XD_WitnessSQLFQDN -WitnessInstanceName $XD_WitnessSQLInstanceName -EndpointPort $XD_WitnessSQLEndpointPort
+
+    Write-Host "Enabling mirroring on $XD_LogDBName"
+    cwcSQL\Set-MirrorPartner -DatabaseName $XD_LogDBName -DatabaseServer $XD_SecondarySQLFQDN -DatabaseInstanceName $XD_SecondarySQLInstanceName -MirrorServer $XD_PrimarySQLFQDN -MirrorInstanceName $XD_PrimarySQLInstanceName -EndpointPort $XD_PrimarySQLEndpointPort
+    cwcSQL\Set-MirrorPartner -DatabaseName $XD_LogDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -MirrorServer $XD_SecondarySQLFQDN -MirrorInstanceName $XD_SecondarySQLInstanceName -EndpointPort $XD_SecondarySQLEndpointPort
+    cwcSQL\Set-MirrorWitness -DatabaseName $XD_LogDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -WitnessServer $XD_WitnessSQLFQDN -WitnessInstanceName $XD_WitnessSQLInstanceName -EndpointPort $XD_WitnessSQLEndpointPort
+
+    Write-Host "Enabling mirroring on $XD_MonitorDBName"
+    cwcSQL\Set-MirrorPartner -DatabaseName $XD_MonitorDBName -DatabaseServer $XD_SecondarySQLFQDN -DatabaseInstanceName $XD_SecondarySQLInstanceName -MirrorServer $XD_PrimarySQLFQDN -MirrorInstanceName $XD_PrimarySQLInstanceName -EndpointPort $XD_PrimarySQLEndpointPort
+    cwcSQL\Set-MirrorPartner -DatabaseName $XD_MonitorDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -MirrorServer $XD_SecondarySQLFQDN -MirrorInstanceName $XD_SecondarySQLInstanceName -EndpointPort $XD_SecondarySQLEndpointPort
+    cwcSQL\Set-MirrorWitness -DatabaseName $XD_MonitorDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -WitnessServer $XD_WitnessSQLFQDN -WitnessInstanceName $XD_WitnessSQLInstanceName -EndpointPort $XD_WitnessSQLEndpointPort
+
+    Write-Host "XD Databases ($XD_SiteDBName,$XD_LogDBName,$XD_MonitorDBName) successfully mirrored"
+}
+catch {
+    $Error[0]
+    exit 1
+}

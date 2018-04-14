@@ -1,0 +1,13 @@
+<#
+    
+Copyright © 2014 Citrix Systems, Inc. All rights reserved.
+
+.SYNOPSIS
+Renew DNS client registration
+
+.DESCRIPTION
+This script makes use of the ipconfig /registerdns command to renew a client registration in DNS
+
+#>
+ipconfig /registerdns
+return $LastExitCode

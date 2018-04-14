@@ -1,0 +1,25 @@
+<#
+.SYNOPSIS
+    Adds a specified account to local admins using CWC library
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter $SVCAccount
+    Name of account to add as local admin
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $SVCAccount,
+    [Parameter(Mandatory=$true)][string] $DNSDomainName
+)
+try {
+    #Ensure service account is properly formatted
+    $SVCAccount = cwcTools\New-UQUserName -UserName $SVCAccount -verbose
+
+    #Add account to local admin group
+    cwcActive-Directory\Add-LocalAdministrator -ObjectType User -ObjectName $SVCAccount -DNSDomainName $DNSDomainName -verbose
+}
+catch {
+    $Error[0]
+    exit 1
+}

@@ -1,0 +1,80 @@
+Steps
+
+1. Staging Server
+2. New-StagingServer
+2.1. New-DomainMember
+2.1.1. Invoke-CWC
+2.1.2. Set-HostName
+2.1.3. Reboot Step
+2.1.4. Set Dns Server
+2.1.5. Join-Domain
+2.1.6. Reboot Step
+2.1.7. Register-DNS
+2.1.8. Add-AccountAsLocalAdmin
+2.2. Validate Inputs
+2.3. Prep-StagingServer
+2.4. Reboot Step
+3. New-XDOUs
+4. Primary SQL Server
+5. Secondary SQL Server
+6. Witness SQL Server
+7. New-SQLMirror
+8. XenDesktop Controller
+9. New-XenDesktopSite
+9.1. New-XenDesktopController
+9.1.1. New-DomainMembe
+9.1.1.1. Invoke-CWC
+9.1.1.2. Set-HostName
+9.1.1.3. Reboot Step
+9.1.1.4. Set Dns Server
+9.1.1.5. Join-Domain
+9.1.1.6. Reboot Step (2)
+9.1.1.7. Register-DNS
+9.1.1.8. Add-AccountAsLocalAdmin
+9.1.2. Prep-XD
+9.1.3. Install .Net Framework
+9.1.4. Reboot Step
+9.1.5. Install-XD
+9.2. New-XDDatabase
+9.3. BackupRestore-XDDatabase
+9.4. Mirror-XDDatabase
+9.5. Set-SQLPermissions
+9.6. New-XDSite
+9.7. New-XenDesktopController
+9.7.1. New-DomainMember 
+9.7.1.1. Invoke-CWC
+9.7.1.2. Set-HostName
+9.7.1.3. Reboot Step
+9.7.1.4. Set Dns Server
+9.7.1.5. Join-Domain
+9.7.1.6. Reboot Step (2)
+9.7.1.7. Register-DNS
+9.7.1.8. Add-AccountAsLocalAdmin
+9.7.2. Prep-XD
+9.7.3. Install .Net Framework
+9.7.4. Reboot Step
+9.7.5. Install-XD
+9.8. Set-SQLPermissions (2)
+9.9. Join-XDController
+10. StoreFront Controller
+11. New-StoreFrontCluster
+11.1. New-StoreFrontController
+11.1.1. New-DomainMember
+11.1.1.1. Invoke-CWC
+11.1.1.2. Set-HostName
+11.1.1.3. Reboot Step
+11.1.1.4. Set Dns Server
+11.1.1.5. Join-Domain
+11.1.1.6. Reboot Step (2)
+11.1.1.7. Register-DNS
+11.1.1.8. Add-AccountAsLocalAdmin
+11.1.2. Prep-XD
+11.1.3. Install .Net Framework
+11.1.4. Reboot Step
+11.1.5. Install-XD
+11.2. New-SFInitialSite
+11.3. New-SFPassCode
+11.4. If Azure
+11.4.1.1. Copy-Passcode
+11.5. New-StoreFrontController
+

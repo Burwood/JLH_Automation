@@ -1,0 +1,42 @@
+<#
+.SYNOPSIS
+    Installs XD Controller using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter XD_MediaName
+    Name of XD ISO file
+.Parameter XD_MediaLocation
+    Local path to XD ISO file
+.Parameter XD_Components
+    Component string to install 
+    .EXAMPLE "CONTROLLER,DESKTOPDIRECTOR,DESKTOPSTUDIO"
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $XD_MediaName,
+    [Parameter(Mandatory=$true)][string] $XD_MediaLocation,
+    [Parameter(Mandatory=$true)][string] $XD_Components
+)
+
+try {
+    write-host "Installing XD Components: $XD_Components"
+    if ($XD_Components.ToUpper().Contains("CONTROLLER")) { $InstallController = $true } else { $InstallController = $false }
+    if ($XD_Components.ToUpper().Contains("DESKTOPDIRECTOR")) { $InstallDirector = $true } else { $InstallDirector = $false }
+    if ($XD_Components.ToUpper().Contains("DESKTOPSTUDIO")) { $InstallStudio = $true } else { $InstallStudio = $false }
+    if ($XD_Components.ToUpper().Contains("LICENSESERVER")) { $InstallLS = $true } else { $InstallLS = $false }
+    if ($XD_Components.ToUpper().Contains("STOREFRONT")) { $InstallStoreFront = $true } else { $InstallStoreFront = $false }
+    
+    $driveLetter = cwcOS-Tools\Mount-Iso -IsoPath $XD_MediaLocation\$XD_MediaName -verbose
+	$setupPath = $driveLetter + "x64\XenDesktop Setup\xendesktopserversetup.exe"
+
+    cwcXenDesktop\Install-DDC -InstallerPath $setupPath -InstallController:$InstallController -InstallDesktopStudio:$InstallStudio -InstallDesktopDirector:$InstallDirector -InstallLS:$InstallLS -InstallStoreFront:$InstallStoreFront -InstallSQL:$false -Reboot:$false -verbose
+    cwcOS-Tools\Dismount-Iso $driveLetter -verbose
+
+    write-Host "XD $XD_Components installed successfully"
+}
+catch {
+    $Error[0]
+    exit 1
+}
