@@ -77,4 +77,102 @@ Steps
 11.4. If Azure
 11.4.1.1. Copy-Passcode
 11.5. New-StoreFrontController
-
+11.6. Join-StoreFrontSiteAzure
+11.6.1.1. Copy-Passcode
+11.6.1.2 Join-SFSite
+11.7. Join-StoreFrontSite
+11.7.1.1. Join-SFSite
+11.8. Update-SFCluster
+12. XD License Server
+13. New-XDLicenseServer
+13.1. New-DomainMember
+13.1.1. Invoke-CWC
+13.1.2. Set-HostName
+13.1.3. Reboot Step
+13.1.4. Set Dns Server
+13.1.5. Join-Domain
+13.1.6. Reboot Step (2)
+13.1.7. Register-DNS
+13.1.8. Add-AccountAsLocalAdmin
+13.2. Prep-XD
+13.3 Install-XD
+14. Config-XDSite
+15. Test VDA Conditional Step
+15.1.1. Test VDA
+15.1.2. New-TestVDA
+15.1.3. New-TestVDAConfig
+15.1.4. Reboot Step
+15.1.5. Invoke-GeneralCleanUp
+16. Provisioning Services Conditional Step
+16.1.1. Provisioning Services
+16.1.1.1. Prep-PVSAccounts
+16.1.1.2. PVS Server 1
+16.1.1.3. PVS Server 2
+16.1.1.4. New-DomainMember
+16.1.1.4.1. Invoke-CWC
+16.1.1.4.2. Set-HostName
+16.1.1.4.3. Reboot Step
+16.1.1.4.4. Set Dns Server
+16.1.1.4.5. Join-Domain
+16.1.1.4.6. Reboot Step (2)
+16.1.1.4.7. Register-DNS
+16.1.1.4.8. Add-AccountAsLocalAdmin
+16.1.1.5. New-DomainMember
+16.1.1.5.1. Invoke-CWC
+16.1.1.5.2. Set-HostName
+16.1.1.5.3. Reboot Step
+16.1.1.5.4. Set Dns Server
+16.1.1.5.5. Join-Domain
+16.1.1.5.6. Reboot Step (2)
+16.1.1.5.7. Register-DNS
+16.1.1.5.8. Add-AccountAsLocalAdmin
+16.1.1.6. Add-AccountAsLocalAdmin
+16.1.1.7. Download PVS Iso
+16.1.1.7.1.1 Download-file
+16.1.1.7.1.2 Install-PVS
+16.1.1.8. New-FileShare
+16.1.1.9. New-PVSDbScript
+16.1.1.10. New-PVSDatabase
+16.1.1.11. Mirror-PVSDatabase
+16.1.1.12. Join-PVSServer
+16.1.1.13. Join-PVSServer (2)
+16.1.1.14. Config-PVS
+16.1.1.15. Config-PVS (2)
+16.1.1.16. New-PVSBootISO
+16.1.2. Invoke-GeneralCleanUp
+17. Configure NetScaler Gateway
+17.1.1. Configure NetScaler Gateway
+17.1.1.1. Create NetScaler VPX
+17.1.1.1.1. If On-Premise Hypervisor
+17.1.1.1.1.1. Create NetScaler VPX (Hypervisor)
+17.1.1.1.2. If AWS
+17.1.1.1.2.1. Create NetScaler VPX (AWS)
+17.1.1.1.3. Get NetScaler VPX Parameters
+17.1.1.1.3.1. Get NSIP
+17.1.1.1.3.2. Get SNIP
+17.1.1.1.3.3. Get SNIP NetMask
+17.1.1.1.3.4. Get Instance Id
+17.1.1.1.4. Setup NetScaler VPX
+17.1.1.1.4.1. Wait for NetScaler to start
+17.1.1.1.4.2. If BYOL
+17.1.1.1.4.2.1.1. Upload NetScaler License files
+17.1.1.1.4.2.1.1.1. Upload NS license files
+17.1.1.1.4.3. Perform Initial Configuration
+17.1.1.1.4.4. Wait for NetScaler to reboot
+17.1.1.2. Get Gateway Address
+17.1.1.2.1. If Hypervisor Step
+17.1.1.2.1.1.1. Enter Gateway address
+17.1.1.2.2. If AWS
+17.1.1.2.2.1.1. Prepare VPX for NetScaler Gateway
+17.1.1.2.3. Get Gateway External Address
+17.1.1.2.4. Get Gateway Internal Address
+17.1.1.3. Create NetScaler Gateway
+17.1.1.3.1. Create LDAP Authentication Policy
+17.1.1.3.2. Upload Gateway Certficate
+17.1.1.3.3. Create NetScaler Gateway Virtual Server
+17.1.1.3.4. Update DNS Records in Route53
+17.1.1.3.4.1.1. Update DNS Records in Route53
+17.1.1.3.5. Configure StoreFront For Gateway
+17.1.1.4. Alert / Notify / Approve
+18. Invoke-AccountCleanUp
+19. Invoke-GeneralCleanUp
