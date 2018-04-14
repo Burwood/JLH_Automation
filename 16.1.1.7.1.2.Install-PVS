@@ -1,0 +1,41 @@
+<#
+.SYNOPSIS
+    Installs PVS Server and creates firewall exceptions using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter PVS_MediaName
+    Name of PVS ISO file
+.Parameter PVS_MediaLocation
+    Local path to PVS ISO file
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $PVS_MediaName = "ProvisioningServices.iso",
+    [Parameter(Mandatory=$true)][string] $PVS_MediaLocation = (Join-Path -Path $ENV:Temp -ChildPath "Citrix")
+)
+
+try {
+    write-host "Installing PVS Server"
+    
+    #Mount ISO and List the contents before accessing the mounted ISO or it fails
+    $driveLetter = cwcOS-Tools\Mount-Iso -IsoPath $PVS_MediaLocation\$PVS_MediaName -verbose
+    dir $driveLetter | Out-Null
+    
+    cwcPVS\Install-PVS -ImagePath $driveLetter -verbose
+    cwcOS-Tools\Dismount-Iso $driveLetter -verbose
+
+    #Allow firewall rules
+    write-host "Creating firewall rules"
+    New-NetFirewallRule -DisplayName "PVS Streaming" -Direction Inbound -Protocol UDP -LocalPort 6910-6930 -Action Allow
+    New-NetFirewallRule -DisplayName "PVS Management" -Direction Inbound -Protocol UDP -LocalPort 6890-6910 -Action Allow
+    New-NetFirewallRule -DisplayName "PVS TSB" -Direction Inbound -Protocol UDP -LocalPort 6969 -Action Allow
+    New-NetFirewallRule -DisplayName "PVS SOAP" -Direction Inbound -Protocol TCP -LocalPort 54321-54322 -Action Allow
+
+    write-Host "PVS Server installed successfully"
+}
+catch {
+    $Error[0]
+    exit 1
+}

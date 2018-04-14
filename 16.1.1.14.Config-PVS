@@ -1,0 +1,51 @@
+<#
+.SYNOPSIS
+    Configures a PVS Server using CWC library. Configures a 2 server farm bootstrap.
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter PVS_Server1Name
+    Host name of PVS server this script is executing on
+.Parameter PVS_Server2Name
+    Host name of other PVS server in the farm
+.Parameter PVS_StreamingIP
+    IP of Streaming NIC, leave null to use single NIC IP
+.Parameter PVS_LicenseServer
+    FQDN address of CTX license server to use
+.Parameter PVS_DNSDomainName
+    DNS name for the PVS server
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $PVS_Server1Name,
+    [Parameter(Mandatory=$true)][string] $PVS_Server2Name,
+    [Parameter(Mandatory=$false)][string] $PVS_StreamingIP,
+    [Parameter(Mandatory=$false)][string] $PVS_LicenseServer,
+    [Parameter(Mandatory=$true)][string] $PVS_DNSDomainName
+)
+
+try {
+    #determining streaming IP
+    if (!$PVS_StreamingIP) {
+        Write-Host "No streaming IP specified ... using PVS server's configured IP Address" 
+        #Get PVS streaming IP from server records
+        cwcPVS\Register-MCLIPSSnapin -verbose
+        $PVS_StreamingIP = cwcPVS\Get-PVSServerStreamingIP -server $PVS_Server1Name -verbose
+        Write-Host "Streaming IP: $PVS_StreamingIP"
+    }
+
+    #Registering PVS MCLI PowerShell Snapin and configuring bootstrap
+    write-host "Registering PVS MCLI PowerShell Snapin and configuring bootstrap"
+    cwcPVS\Register-MCLIPSSnapin -verbose
+    cwcPVS\Set-Bootstrap -server $PVS_Server1Name -bootstrapNumber 1 -bootstrapIP $PVS_StreamingIP -Verbose
+    cwcPVS\Set-Bootstrap -server $PVS_Server2Name -bootstrapNumber 2 -bootstrapIP $PVS_StreamingIP -Verbose
+
+    #set farm license server
+    $licenseServer = "$PVS_LicenseServer.$PVS_DNSDomainName"
+    cwcPVS\Set-FarmLicensing -licenseServer $licenseServer -Verbose
+}
+catch {
+    $Error[0]
+    exit 1
+}
