@@ -1,0 +1,79 @@
+<#
+.SYNOPSIS
+    Backup XD databases on Primary SQL and restore on Secondary SQL using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter XD_SiteDBName
+    Name of the new XenDesktop site database
+.Parameter XD_LogDBName
+    Name of the new XenDesktop configuration logging database
+.Parameter XD_MonitorDBName
+    Name of the new XenDesktop Monitoring database
+.Parameter XD_DNSDomainName
+    Fully Qualified DNS domain name of the database servers
+.Parameter XD_PrimarySQLHostname
+    Hostname of primary SQL database server
+.Parameter XD_PrimarySQLInstanceName
+    Optional Name of primary SQL database server instance
+.Parameter XD_SecondarySQLHostname
+    Hostname of Mirror partner SQL database server
+.Parameter XD_SecondarySQLInstanceName
+    Optional name of Mirror partner SQL database server instance
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $XD_SiteDBName,
+    [Parameter(Mandatory=$true)][string] $XD_LogDBName,
+    [Parameter(Mandatory=$true)][string] $XD_MonitorDBName,
+    [Parameter(Mandatory=$true)][string] $XD_DNSDomainName,
+    [Parameter(Mandatory=$true)][string] $XD_PrimarySQLHostname,
+    [Parameter(Mandatory=$false)][string] $XD_PrimarySQLInstanceName,
+    [Parameter(Mandatory=$true)][string] $XD_SecondarySQLHostname,
+    [Parameter(Mandatory=$false)][string] $XD_SecondarySQLInstanceName
+)
+
+try {
+    import-module "$env:programfiles\Microsoft SQL Server\120\Tools\Powershell\Modules\sqlps"
+    set-location $env:systemdrive
+    
+    $XD_PrimarySQLFQDN = "$XD_PrimarySQLHostname.$XD_DNSDomainName"
+    $XD_SecondarySQLFQDN = "$XD_SecondarySQLHostname.$XD_DNSDomainName"
+
+    write-host "Create file share on staging server to host db backup files"
+    mkdir "$env:systemdrive\dbshare"
+    cwcOS-Tools\Add-SMBShare -SharePath "$env:systemdrive\dbshare" -ShareName dbshare -Access everyone
+    $srcBackupPath = "\\$env:computername\dbshare"
+    $dstBackupPath = "\\$env:computername\dbshare"
+
+    #$srcBackupPath = cwcSQL\Get-DefaultSQLBackupPath -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName
+    #$dstBackupPath = cwcSQL\Get-DefaultSQLBackupPath -DatabaseServer $XD_SecondarySQLFQDN -DatabaseInstanceName $XD_SecondarySQLInstanceName
+
+    Write-Host "Backing up databases on $XD_PrimarySQLFQDN"
+    cwcSQL\Backup-DatabaseToMirror -DatabaseName $XD_SiteDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -BackupPath $srcBackupPath
+    cwcSQL\Backup-DatabaseToMirror -DatabaseName $XD_LogDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -BackupPath $srcBackupPath
+    cwcSQL\Backup-DatabaseToMirror -DatabaseName $XD_MonitorDBName -DatabaseServer $XD_PrimarySQLFQDN -DatabaseInstanceName $XD_PrimarySQLInstanceName -BackupPath $srcBackupPath
+
+    Write-Host "Copying databases from $XD_PrimarySQLFQDN to $XD_SecondarySQLFQDN"
+    #$tmpSrcPath = "\\$XD_PrimarySQLFQDN\c$" + (split-path $srcBackupPath -NoQualifier)
+    #$tmpDstPath = "\\$XD_SecondarySQLFQDN\c$" + (split-path $dstBackupPath -NoQualifier)
+    
+    #copy-item filesystem::$tmpSrcPath\$XD_SiteDBName.bak filesystem::$tmpDstPath\$XD_SiteDBName.bak
+    #copy-item filesystem::$tmpSrcPath\$XD_LogDBName.bak filesystem::$tmpDstPath\$XD_LogDBName.bak
+    #copy-item filesystem::$tmpSrcPath\$XD_MonitorDBName.bak filesystem::$tmpDstPath\$XD_MonitorDBName.bak
+
+    Write-Host "Restoring databases on $XD_SecondarySQLFQDN"
+    cwcSQL\Restore-DatabaseForMirror -DatabaseName $XD_SiteDBName -DatabaseServer $XD_SecondarySQLFQDN -DatabaseInstanceName $XD_SecondarySQLInstanceName -BackupPath $dstBackupPath
+    cwcSQL\Restore-DatabaseForMirror -DatabaseName $XD_LogDBName -DatabaseServer $XD_SecondarySQLFQDN -DatabaseInstanceName $XD_SecondarySQLInstanceName -BackupPath $dstBackupPath
+    cwcSQL\Restore-DatabaseForMirror -DatabaseName $XD_MonitorDBName -DatabaseServer $XD_SecondarySQLFQDN -DatabaseInstanceName $XD_SecondarySQLInstanceName -BackupPath $dstBackupPath
+
+    Remove-SmbShare -Name dbshare -Force
+    Remove-Item -Path "$env:systemdrive\dbshare" -Recurse -Force
+
+    Write-Host "XD Databases ($XD_SiteDBName,$XD_LogDBName,$XD_MonitorDBName) successfully backedup and restored"
+}
+catch {
+    $Error[0]
+    exit 1
+}

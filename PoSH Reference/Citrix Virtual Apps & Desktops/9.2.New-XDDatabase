@@ -1,0 +1,71 @@
+<#
+.SYNOPSIS
+    Creates XD Databases using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter XD_SiteName
+    Name of the new XenDesktop site
+.Parameter XD_SiteDBName
+    Name of the new XenDesktop site database
+.Parameter XD_LogDBName
+    Name of the new XenDesktop configuration logging database
+.Parameter XD_MonitorDBName
+    Name of the new XenDesktop Monitoring database
+.Parameter XD_DNSDomainName
+    Fully Qualified DNS domain name of the database servers
+.Parameter XD_SQLAccount
+    Name of the account with required permssions to create SQL database
+.Parameter XD_SQLAccountPassword
+    Password of the account with required permssions to create SQL database
+.Parameter XD_PrimarySQLHostname
+    Hostname of SQL database server
+.Parameter XD_PrimarySQLInstanceName
+    Optional name of database instance
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $XD_SiteName,
+    [Parameter(Mandatory=$true)][string] $XD_SiteDBName,
+    [Parameter(Mandatory=$true)][string] $XD_LogDBName,
+    [Parameter(Mandatory=$true)][string] $XD_MonitorDBName,
+    [Parameter(Mandatory=$true)][string] $XD_DNSDomainName,
+    [Parameter(Mandatory=$true)][string] $XD_SQLAccount,
+    [Parameter(Mandatory=$true)][string] $XD_SQLAccountPassword,
+    [Parameter(Mandatory=$true)][string] $XD_PrimarySQLHostname,
+    [Parameter(Mandatory=$false)][string] $XD_PrimarySQLInstanceName
+)
+
+try {
+    #format user names
+        Write-Host "Formatting User Names"
+        $XD_PrimarySQLFQDN = "$XD_PrimarySQLHostname.$XD_DNSDomainName"
+
+        $XD_SQLAccount = cwcTools\New-UQUserName -UserName $XD_SQLAccount -verbose
+        $XD_SQLAccount = cwcActive-Directory\Test-SAMAccountName -UserName $XD_SQLAccount -verbose
+        $XD_NetBIOSName = cwcActive-Directory\Get-UserNetBIOSName -verbose
+        $XD_SQLAccountFormatted = "$XD_NetBIOSName\$XD_SQLAccount"
+
+        $SQLCreds = cwcOS-Tools\ConvertTo-Credential -User $XD_SQLAccountFormatted -Password $XD_SQLAccountPassword -verbose
+
+    #Load snapins
+        Write-Host  "Load Citrix snapin and module"    
+        Import-Module "C:\Program Files\Citrix\XenDesktopPoshSdk\Module\Citrix.XenDesktop.Admin.V1\Citrix.XenDesktop.Admin" | out-default
+	    Add-PSSnapin Citrix.* | out-default
+
+	#Create XD Databases
+	    Write-Host "Creating XD Databases on Primary Database Server: $XD_PrimarySQLFQDN\$XD_PrimarySQLInstanceName"
+	    New-XDDatabase -AdminAddress localhost -SiteName $XD_SiteName -DataStore Site -DatabaseServer $XD_PrimarySQLFQDN\$XD_PrimarySQLInstanceName -DatabaseName $XD_SiteDBName -DatabaseCredentials $SQLCreds -errorAction stop | out-default
+	    New-XDDatabase -AdminAddress localhost -SiteName $XD_SiteName -DataStore Logging -DatabaseServer $XD_PrimarySQLFQDN\$XD_PrimarySQLInstanceName -DatabaseName $XD_LogDBName -DatabaseCredentials $SQLCreds -errorAction stop | out-default
+	    New-XDDatabase -AdminAddress localhost -SiteName $XD_SiteName -DataStore Monitor -DatabaseServer $XD_PrimarySQLFQDN\$XD_PrimarySQLInstanceName -DatabaseName $XD_MonitorDBName -DatabaseCredentials $SQLCreds -errorAction stop | out-default
+
+        Write-Host "XD Databases ($XD_SiteDBName,$XD_LogDBName,$XD_MonitorDBName) created on Primary Database Server: $DatabaseServerString successfully"
+    
+    #return the downlevel formatted SQL Account to be used in CLM run as
+        return $XD_SQLAccountFormatted
+}
+catch {
+    $Error[0]
+    exit 1
+}

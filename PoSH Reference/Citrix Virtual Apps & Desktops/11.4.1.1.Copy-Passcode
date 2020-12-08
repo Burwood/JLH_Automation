@@ -1,0 +1,36 @@
+<#
+.SYNOPSIS
+    Copys passcode from SF Controller1 to SF Controller2
+.PARAMETER SF_Controller1HostName
+    Hostname of StoreFront Controller 1
+.PARAMETER StagingHostName
+    Hostname of Staging Server
+.PARAMETER DomainDNSName
+    Fully Qualified DNS domain name of StoreFront Controllers
+.PARAMETER Path
+    Path to store SF passcode
+.PARAMETER FileName
+    Filename to store SF passcode
+#>
+[CmdletBinding()]
+Param (
+    [Parameter(Mandatory=$true)][string]$SF_Controller1HostName,	
+    [Parameter(Mandatory=$true)][string]$StagingHostName,
+    [Parameter(Mandatory=$true)][string]$DomainDNSName,
+    [Parameter(Mandatory=$false)][string]$Path = "$env:temp\Citrix",
+    [Parameter(Mandatory=$false)][string]$FileName = "STFPassCode.txt"
+)
+try {
+$SF_Controller1FQDN = "$SF_Controller1HostName.$DomainDNSName"
+$StagingFQDN = "$StagingHostName.$DomainDNSName"
+
+Write-Host "Copying passcode from $SF_Controller1FQDN to $StagingFQDN"
+$tmpSrcPath = "\\$SF_Controller1FQDN\c$" + (split-path $Path -NoQualifier)
+$tmpDstPath = "\\$StagingFQDN\c$" + (split-path $Path -NoQualifier)
+
+copy-item filesystem::$tmpSrcPath\$FileName filesystem::$tmpDstPath\$FileName
+}
+catch {
+    $error[0]
+    exit 1
+}

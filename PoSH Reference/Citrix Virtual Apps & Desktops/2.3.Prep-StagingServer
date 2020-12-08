@@ -1,0 +1,57 @@
+<#
+.SYNOPSIS
+    Prepares Staging Server for installation using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter Stage_MSSystemCLRTypes
+    Name of MSSystemCLRTypes msi file
+.Parameter Stage_MSSQLSharedManagementObjects
+    Name of MSSQLSharedManagementObjects msi file
+.Parameter Stage_MSPowerShellExtensionsForSQL
+    Name of MSPowerShellExtensionsForSQL msi file
+.Parameter Stage_MediaLocation
+    Remote path to Stage msi files, http or UNC
+.Parameter Stage_LocalMediaLocation
+    Local path to store Stage msi files, defaults to user's temp directory
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $Stage_MSSystemCLRTypes,
+    [Parameter(Mandatory=$true)][string] $Stage_MSSQLSharedManagementObjects,
+    [Parameter(Mandatory=$true)][string] $Stage_MSPowerShellExtensionsForSQL,
+    [Parameter(Mandatory=$true)][string] $Stage_MediaLocation,
+    [Parameter(Mandatory=$false)][string] $Stage_LocalMediaLocation = (Join-Path -Path $ENV:Temp -ChildPath "Citrix")
+)
+
+try {
+    cwcOS-Tools\Download-File -FileName $Stage_MSSystemCLRTypes -Path $Stage_MediaLocation -ToFolder $Stage_LocalMediaLocation -verbose
+    cwcOS-Tools\Download-File -FileName $Stage_MSSQLSharedManagementObjects -Path $Stage_MediaLocation -ToFolder $Stage_LocalMediaLocation -verbose
+    cwcOS-Tools\Download-File -FileName $Stage_MSPowerShellExtensionsForSQL -Path $Stage_MediaLocation -ToFolder $Stage_LocalMediaLocation -verbose
+
+    Write-Verbose "Installing SQL PoSH Extensions"
+    
+    # Install Microsoft System CLR Types
+    Write-Host "***** Installing Microsoft System CLR Types *****"
+    $installerArgs = "/qn /log $Stage_LocalMediaLocation\MSCLRTypes.log"
+    $expectedExitCode = "0"
+    $installSQLoutput = cwcInstall\Install-MSIOrEXE -installerPath "$Stage_LocalMediaLocation\SQLSysClrTypes.msi" -installerArgs $installerArgs -expectedExitCode $expectedExitCode -Verbose
+
+    # Install Microsoft SQL Shared Management Objects
+    Write-Host "***** Installing Microsoft SQL Shared Management Objects *****"
+    $installerArgs = "/qn /log $Stage_LocalMediaLocation\MSSharedMgmtObjs.log"
+    $installSQLoutput = cwcInstall\Install-MSIOrEXE -installerPath "$Stage_LocalMediaLocation\SharedManagementObjects.msi" -installerArgs $installerArgs -expectedExitCode $expectedExitCode -Verbose
+
+    # Install Microsoft Windows PowerShell Extensions for Microsoft SQL Server
+    Write-Host "***** Microsoft Windows PowerShell Extensions for Microsoft SQL Server *****"
+    $installerArgs = "/qn /log $Stage_LocalMediaLocation\MSPosh4SQL.log"
+    $installSQLoutput = cwcInstall\Install-MSIOrEXE -installerPath "$Stage_LocalMediaLocation\PowerShellTools.msi" -installerArgs $installerArgs -expectedExitCode $expectedExitCode -Verbose
+
+    #install AD module
+    #Add-WindowsFeature RSAT-AD-PowerShell
+}
+catch {
+    $Error[0]
+    exit 1
+}

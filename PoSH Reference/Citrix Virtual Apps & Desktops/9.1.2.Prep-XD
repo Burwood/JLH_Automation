@@ -1,0 +1,28 @@
+<#
+.SYNOPSIS
+    Prepares XD Controller for installation using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter XD_MediaName
+    Name of XD ISO file
+.Parameter XD_MediaLocation
+    Remote path to XD ISO, http or UNC
+.Parameter XD_LocalMediaLocation
+    Local path to store XD ISO file, defaults to user's temp directory
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $XD_MediaName,
+    [Parameter(Mandatory=$true)][string] $XD_MediaLocation,
+    [Parameter(Mandatory=$false)][string] $XD_LocalMediaLocation = (Join-Path -Path $ENV:Temp -ChildPath "Citrix")
+)
+
+try {
+    cwcOS-Tools\Download-File -FileName $XD_MediaName -Path $XD_MediaLocation -ToFolder $XD_LocalMediaLocation -verbose
+}
+catch {
+    $Error[0]
+    exit 1
+}

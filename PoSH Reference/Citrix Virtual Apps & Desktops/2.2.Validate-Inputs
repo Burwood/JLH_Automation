@@ -1,0 +1,223 @@
+<#   
+
+Copyright © 2016 Citrix Systems, Inc. All rights reserved.
+
+.SYNOPSIS
+Validate customer inputs before running the blueprint
+
+.DESCRIPTION
+
+.PARAMETER MediaLocation
+ Remote path to ISO, http or UNC
+.PARAMETER GenSvc
+ General service account
+.PARAMETER SQLAccount
+ SQL admin account
+.PARAMETER OUPath
+ Specifies an organizational unit (OU) path to the root OU the service account has full permissions to. Enter the full distinguished name of the OU in quotation marks. 
+ i.e. "OU=Citrix,DC=domain,DC=Domain,DC=com"
+.PARAMETER clmresourcelocationkey
+ Resource location to run the blueprint
+ i.e. "xenserver", "ec2"
+.PARAMETER DeployNetScalerGateway
+ Netscaler deployment option
+.PARAMETER DeployPVS
+ PVS deployment option 
+.PARAMETER domainName
+ FQDN of domain to join "Test.Local" 
+.PARAMETER MSSystemCLRTypes
+ Name of MSSystemCLRTypes msi file
+.PARAMETER MSSQLSharedManagementObjects
+ Name of MSSQLSharedManagementObjects msi file
+.PARAMETER MSPowerShellExtensionsForSQL
+ Name of MSPowerShellExtensionsForSQL msi file 
+.PARAMETER LicenseModel
+ "UserDevice" or "Concurrent"
+.PARAMETER ProductCode
+ "XDT" or "MPS"
+.PARAMETER LicenseEdition
+ XenDesktop - "STD" (Standard), "ADV" (Advanced), "APP" (App Edition), "ENT" (Enterprise), "PLT" (Platinum)
+ XenApp - "ADV" (Advanced), "ENT" (Enterprise), "PLT" (Platinum)
+#>
+
+[CmdletBinding()]
+Param (  
+    [string]$MediaLocation,
+    [string]$GenSVC,
+    [string]$SQLAccount,
+    [string]$OUPath,
+    [string]$clmresourcelocationkey,
+    [string]$DeployNetScalerGateway,
+    [string]$DeployPVS,
+    [string]$domainName,
+    [string]$MSSystemCLRTypes,
+    [string]$MSSQLSharedManagementObjects,
+    [string]$MSPowerShellExtensionsForSQL,
+    [string]$SQLPartnerISOFile,
+    [string]$SQLWitnessFile,
+    [string]$WitnessSQLEdition,
+    [string]$LicenseModel,
+    [string]$LicenseEdition,
+    [string]$ProductCode
+)
+
+try{
+
+$ErrorActionPreference = 'Stop'
+write-host $clmresourcelocationkey
+
+    #Check the permission for the user that is running this script 
+    write-host "Checking if this user has administrator permission to run the script..."
+    $GenSVCUQ = cwcTools\New-UQUserName -UserName $GenSVC
+    If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
+    [Security.Principal.WindowsBuiltInRole] "Administrator"))
+    {
+    Write-Warning "You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!"
+    Break
+    }
+ 
+ 
+   #Check the OUPath exists in the current domain
+   Write-Host "`nChecking the OUPath exists in the current domain..."
+   if ($([ADSI]::Exists("LDAP://$OUPath")) -eq $false){Throw "OUPath doesn't exist in the current domain." }
+
+   Write-Host "`nChecking if Service Account exists in the current OU..."
+   if ((cwcActive-Directory\Test-ADUser -UserName $GenSVCUQ) -eq $false){Throw "The service account doesn't exist. Please create a user with administrator rights in the specified OU."}
+
+   #Format a hashtable from all media in the media location
+   $FileName = @{
+   MSSystemCLRTypes=$MSSystemCLRTypes
+   MSSQLSharedManagementObjects=$MSSQLSharedManagementObjects
+   MSPowerShellExtensionsForSQL=$MSPowerShellExtensionsForSQL
+   SQLWitnessFile=$SQLWitnessFile
+   SQLPartnerISOFile=$SQLPartnerISOFile
+   }
+   $val = $FileName.Values | % ToString
+
+   #All required installation packages exist in UNC path specified in MediaLocation
+ 
+   try{
+     if ($MediaLocation -match "^https?://\w+") {
+      Write-host "`nChecking that media location URL is accessible..."
+        # Web URL
+        for ($i=0; $i -lt $FileName.Values.Count; $i++){
+            foreach ($v_ in $val[$i]){
+            $Url = "$MediaLocation/$v_"
+            $testUrl = Invoke-WebRequest $Url -Verbose -UseBasicParsing 
+            if ($testUrl.StatusCode -ne "200" -OR $testUrl.StatusDescription -ne "OK"){
+               Write-Verbose -Message "Failed to request $Url"
+               write-Verbose -message ($testUrl | out-string)           
+            }
+        
+            else{ Write-Host "$v_ Exist in $MediaLocation"}
+           }
+        }
+    
+      }
+
+  
+    if (($MediaLocation  -match "^\\\\\w+") -or ($MediaLocation -match "^[C-Z]:\\\w+")) {
+        # CIFS file share or local path
+         Write-host "`nChecking the provided UNC path has all the required media..."
+        if ($MediaLocation.EndsWith('\')) {
+            $MediaLocation  = $MediaLocation.TrimEnd('\')
+            }
+
+        if ((Test-Path $MediaLocation) -eq $false) {Throw "media location folder doesn't exist."};
+     
+     $file = Get-ChildItem $MediaLocation
+     $correct =0
+     $list = @()
+     foreach ($val_ in $FileName.Values.GetEnumerator())
+     {
+          
+       foreach ($file_ in $file.Name)
+          {
+           
+            if ($($val_) -eq $($file_))
+            {
+             $correct=+1
+             $list += $file_
+            }
+          
+          }
+       } 
+   
+        if ($val.Count -eq $list.Count){
+        if (Compare-Object -IncludeEqual $list $val){
+        write-host "Files existing in the media location match the required media."
+        }
+        
+        else 
+        {
+         Throw "Files existing in the media location do not match the required media"
+         
+        }
+       }
+      else {Throw "Check if the files match with the requirements"}
+     }
+     }
+       catch {
+       
+        $_.Exception.Response.StatusCode.Value__
+        write-verbose -message $_.exception
+        }
+
+    #Check the version of the witness sql
+    Write-Host "`nChecking the Witness SQL Edition media file type..."
+   if ($WitnessSQLEdition -eq "Express"){
+ 
+        if ($SQLWitnessFile -notlike "*.exe"){Throw "The specified Witness SQL edition is Express. Make sure the installation file is in .exe format."}
+      }
+   
+    else 
+    {
+        if ($SQLWitnessFile -notlike "*.iso"){Throw "The specified Witness SQL edition is not Express. Make sure the installation file is in .iso format."} 
+    }
+    
+
+   if (($MediaLocation  -match "^\\\\\w+") -or ($MediaLocation -match "^[C-Z]:\\\w+"))
+    {
+   write-host "`nChecking if the service account has access to the media location..."
+    
+    $Acl = Get-Acl $MediaLocation
+     if(-not (($Acl.Access | select -ExpandProperty IdentityReference) -contains $GenSVC) -and (-not (($Acl.Access | select -ExpandProperty IdentityReference) -contains "Everyone")))
+     {
+        Throw "Service account doesn't have access to the media location. Make sure the service account is added to the security group and the folder is shared."
+     }  
+    }
+
+   #Checking if SQL account exists
+   Write-Host "`nChecking if SQL account exists in the current OU..."
+     $SQLAccount = cwcTools\New-UQUserName -UserName $SQLAccount -verbose
+     if ((cwcActive-Directory\Test-ADUser -UserName $SQLAccount) -eq $false){Throw "The SQL account doesn't exist. Please create a domain user account in the OU."}
+
+   #if the resource location is not XenServer or AWS, can't deploy NetScaler
+   Write-host "`nChecking if NetScaler Gateway can be deployed on the selected resource location..."
+   If ($clmresourcelocationkey -ne "ec2" -And $clmresourcelocationkey -ne "xenserver")
+   {
+    if( $DeployNetScalerGateway -eq "Yes")
+    {Throw "NetScaler Gateway can't be deployed on this resource location."}
+   }
+
+   #Check if the PVS is installed on Cloud throw error
+     Write-host "`nChecking if PVS can be deployed on the selected resource location..."
+     If ($clmresourcelocationkey -eq "ec2" -OR $clmresourcelocationkey -eq "azure")
+   {
+    if( $DeployPVS -eq "Yes")
+    {Throw "PVS can't be deployed on this resource location."}
+   }
+
+   #check XD License Model, Product code and edition 
+   Write-host "`nChecking if product code, license edition and model match..."
+   If ($ProductCode -eq "MPS"){
+      
+        If($LicenseEdition -eq "STD"){Throw "Standard edition is not supported for XenApp. Select Enterprise, Advanced or Platinum for XenApp."}
+        if ($LicenseModel -eq "UserDevice"){Throw "UserDevice License Model is not supported for XenApp. Select Concurrent for XenApp."}
+   }
+  
+}
+   catch {
+   write-host "Exception Message: $($_.Exception.Message)"
+   exit 1
+   }

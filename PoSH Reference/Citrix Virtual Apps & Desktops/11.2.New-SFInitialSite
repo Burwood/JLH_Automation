@@ -1,0 +1,105 @@
+<#
+.SYNOPSIS
+    Configures a SF server with an initial configuration and generates a passcode using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+
+.PARAMETER SF_XDServer1
+    First XML Broker hostname (i.e. "CTX-XDC-001")
+.PARAMETER SF_XDServer2
+    Second XML Broker hostname (i.e. "CTX-XDC-002")
+.PARAMETER SF_DNSDomainName
+    Fully qualified DNS name for SF servers (i.e. "2k3.local")
+.PARAMETER SF_FarmName
+    Name for the Farm that will be created
+.PARAMETER SF_FarmType
+    Type of Farm that will be connected to "XenDesktop" or "XenApp"
+.PARAMETER SF_Port
+    Port for connecting to farm
+.PARAMETER SF_TransportType
+    Transport protocol used to connect to XML brokers in farm
+.PARAMETER SF_HTTPPort
+    Port to connect to XML brokers in farm when HTTP transport protocol is used
+.PARAMETER SF_HTTPSPort
+    Port to connect to XML brokers in farm when HTTPS transport protocol is used
+.PARAMETER SF_LoadBalancing
+    Bool specifing if loadbalancing will be used
+.PARAMETER SF_SSLRelayPort
+    Port to use when implementing SSL Relay
+.PARAMETER SF_AuthenticationVirtualPath
+    IIS Virtual Path for StoreFront Authentication
+.PARAMETER SF_StoreVirtualPath
+    IIS Virtual Path for StoreFront Receiver Store
+.PARAMETER SF_WebReceiverVirtualPath
+    IIS Virtual Path for StoreFront Web Receiver Store
+.PARAMETER SF_RoamingVirtualPath
+    IIS Virtual Path for StoreFront Roaming
+.PARAMETER SF_URL
+    ###### move this back up once named parameters are added
+    The Base URL which will be used for site creation. If none specified by user, hostname will be used in base URL.
+#>
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory=$true)]  [string]$SF_XDServer1,
+        [Parameter(Mandatory=$true)]  [string]$SF_XDServer2,
+        [Parameter(Mandatory=$true)]  [string]$SF_DNSDomainName,
+        [Parameter(Mandatory=$false)]  [string]$SF_FarmName = 'PrimarySite',
+        [Parameter(Mandatory=$false)]  [string]$SF_FarmType = 'XenDesktop',
+        [Parameter(Mandatory=$false)]  [int]$SF_HTTPPort = 80,
+        [Parameter(Mandatory=$false)]  [int]$SF_HTTPSPort = 443,
+        [Parameter(Mandatory=$false)]  [string]$SF_TransportType = 'HTTP',
+        [Parameter(Mandatory=$false)]  [int]$SF_LoadBalancing = 0,
+        [Parameter(Mandatory=$false)]  [int]$SF_SSLRelayPort = 443,
+        [Parameter(Mandatory=$false)]  [string]$SF_AuthenticationVirtualPath = '/Citrix/Authentication',
+        [Parameter(Mandatory=$false)]  [string]$SF_StoreVirtualPath = '/Citrix/Store',
+        [Parameter(Mandatory=$false)]  [string]$SF_WebReceiverVirtualPath = '/Citrix/StoreWeb',
+        [Parameter(Mandatory=$false)]  [string]$SF_RoamingVirtualPath = '/Citrix/Roaming',
+        [Parameter(Mandatory=$false)]  [string]$SF_URL = ("http://" + [System.Net.Dns]::GetHostName())
+    )
+
+try {
+    Write-Host "Configuring initial StoreFront configuration"
+        #Remove this after switch to named parameters
+        if ($SF_URL -eq "") { $SF_URL = ("http://" + [System.Net.Dns]::GetHostName()) }
+
+    [System.Convert]::ToBoolean($SF_LoadBalancing)
+
+    $SF_XDServer1 = cwcTools\New-FQDN -ComputerName $SF_XDServer1 -DomainName $SF_DNSDomainName
+    $SF_XDServer2 = cwcTools\New-FQDN -ComputerName $SF_XDServer2 -DomainName $SF_DNSDomainName
+    $SF_XDServers = @("$SF_XDServer1","$SF_XDServer2")
+
+    #Write-Host "Importing StoreFront Modules"
+    $dsInstallProp = Get-ItemProperty -Path HKLM:\SOFTWARE\Citrix\DeliveryServices -Name InstallDir
+    $dsInstallDir = $dsInstallProp.InstallDir
+            
+    #Write-Verbose "*** Import Module in '$dsInstallDir'"
+    $scriptsParent = $dsInstallDir.TrimEnd("\")
+    . "$dsInstallDir\Scripts\ImportModules.ps1"
+
+    cwcStoreFront\New-SFDeployment -XDServers $SF_XDServers `
+                                   -URL $SF_URL `
+                                   -FarmName $SF_FarmName `
+                                   -FarmType $SF_FarmType `
+                                   -TransportType $SF_TransportType `
+                                   -HTTPPort $SF_HTTPPort `
+                                   -HTTPSPort $SF_HTTPSPort `
+                                   -LoadBalancing $SF_LoadBalancing `
+                                   -SSLRelayPort $SF_SSLRelayPort `
+                                   -AuthenticationVirtualPath $SF_AuthenticationVirtualPath `
+                                   -StoreVirtualPath $SF_StoreVirtualPath `
+                                   -WebReceiverVirtualPath $SF_WebReceiverVirtualPath `
+                                   -RoamingVirtualPath $SF_RoamingVirtualPath
+    
+    #start these now so the proper module installation has occured in PoSh once, before attempting to generate a passcode in a new session/script!
+    cwcStoreFront\Start-ClusterJoinService
+
+    #Set default web page
+    cwcStoreFront\Set-IISDefaultSite -SF_TransportType $SF_TransportType -SF_URL $SF_URL -SF_WebReceiverVirtualPath $SF_WebReceiverVirtualPath
+
+    Write-Host "StoreFront configuration initialized successfully"
+}
+catch {
+    $Error[0]
+    exit 1
+}

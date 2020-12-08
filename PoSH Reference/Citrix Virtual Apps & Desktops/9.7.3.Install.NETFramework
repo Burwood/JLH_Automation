@@ -1,0 +1,63 @@
+<#
+    
+Copyright © 2016 Citrix Systems, Inc. All rights reserved.
+
+.SYNOPSIS
+Install latest version of .NET Framework
+
+.DESCRIPTION
+The script will mount the specified ISO using native PowerShell cmdlet and take a look to see if
+one of the designated .NET installers is there; if so it wil be installed.
+
+If none of the designated installers can be found the NET-AS_Framework feature (.NET 3.5.1) will be installed.
+
+.PARAMETER IsoPath
+The path to the ISO
+
+#>
+#Requires -Version 3
+Param (
+    [Parameter(Mandatory=$true)]
+    [string]$XD_LocalMediaLocation,
+    [Parameter(Mandatory=$true)]
+    [string]$XD_MediaName
+)
+
+$ErrorActionPreference = 'Stop'
+
+try {
+    $drive = (Mount-DiskImage -ImagePath $XD_LocalMediaLocation\$XD_MediaName -PassThru -ErrorAction Stop | Get-Volume).DriveLetter + ":"
+
+    # Possible .NET installers in order of preference
+    $dotNetInstallers = @(
+        (New-Object PSObject -Property @{ Name = ".NET 4.5.2"; Path = "Support\DotNet452\NDP452-KB2901907-x86-x64-AllOS-ENU.exe"}),
+        (New-Object PSObject -Property @{ Name = ".NET 4.5.1"; Path = "Support\DotNet451\NDP451-KB2858728-x86-x64-AllOS-ENU.exe"})
+    )
+
+    foreach ($entry in $dotNetInstallers) {
+
+        $installer = Join-Path -Path $drive -ChildPath $entry.Path
+        $name = $entry.Name
+        if (Test-Path $installer) {
+            $argList = "/q /norestart"
+            $proc = Start-Process -FilePath $installer -ArgumentList $argList -Wait -NoNewWindow -PassThru
+            if (($proc.ExitCode -eq 3) -or ($proc.ExitCode -eq 3010)) {
+                return "$name installed. Reboot required"
+            } elseif ($proc.ExitCode -ne 0) {
+                throw "$installer $argList failed: error code $($proc.ExitCode)"
+            }
+            return "$name installed"
+        }
+    }
+    # No match so install the old standard
+    Import-Module ServerManager
+    Add-WindowsFeature -Name "AS-NET_Framework" -IncludeAllSubFeature 
+    return ".NET 3.5.1 installed"
+} catch {
+    $_
+    exit 1
+} finally {
+    if (Test-Path $XD_LocalMediaLocation\$XD_MediaName) {
+        Dismount-DiskImage -ImagePath $XD_LocalMediaLocation\$XD_MediaName
+    }
+}

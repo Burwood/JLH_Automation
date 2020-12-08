@@ -1,0 +1,42 @@
+<#
+.SYNOPSIS
+    Creates a file share using CWC library
+
+    Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+.DESCRIPTION
+    
+.Parameter ShareName
+    Name of file share
+.Parameter ShareLocation
+    Local path to folder to share, defaults to temp folder on system drive. If path does not exist, it will be created.
+.Parameter FullAccessAccounts
+    Specifies which accounts are granted full permission to access the share. Use a comma-separated list to specify multiple accounts.
+    Defaults to everyone
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)][string] $ShareName,
+    [Parameter(Mandatory=$false)][string] $ShareLocation = "$env:systemdrive\CWCtemp",
+    [Parameter(Mandatory=$false)][string] $FullAccessAccounts = "everyone"
+)
+
+try { 
+    write-host "Create file share: $ShareName in path $ShareLocation"
+    if (!(test-path $ShareLocation)) {
+        try { 
+            Write-Host "$ShareLocation does not exist, trying to create ..."
+            mkdir $ShareLocation 
+        }
+        catch {
+            Write-Host "Unabled to create $ShareLocation"
+            $Error[0]
+            exit 1
+        }
+    }
+
+    cwcOS-Tools\Add-SMBShare -SharePath $ShareLocation -ShareName $ShareName -Access $FullAccessAccounts
+}
+catch {
+    $Error[0]
+    exit 1
+}
