@@ -35,7 +35,7 @@ Add-AppxPackage .\Ubuntu2004.appx
 Create a user account and set the password
 
 ## Install automation tools
-let's do everything in our home directory\
+let's do everything in our home directory
 ```bash
 cd ~/
 ```
