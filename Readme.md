@@ -71,4 +71,4 @@ Terraform-inventory allows ansible to dynamically create inventory from a terraf
 `(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)`\
 `powershell.exe -ExecutionPolicy ByPass -File $file`
 
-# Check out the example project for next steps!
+# Check out the [example project](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project) for next steps!
