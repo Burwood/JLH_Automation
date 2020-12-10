@@ -64,6 +64,12 @@ curl -fsSL -o terraform-inventory_0.9_linux_amd64.zip https://github.com/adammck
 rm terraform-inventory_0.9_linux_amd64.zip
 ```
 
+## Install an editor (optional)
+Visual Studio Code: https://code.visualstudio.com/
+Notepad++: https://notepad-plus-plus.org/downloads/
+Sublime Text: https://www.sublimetext.com/
+
+
 # Check out the [example project](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project) for next steps!
 
 ---
