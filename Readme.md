@@ -70,3 +70,5 @@ Terraform-inventory allows ansible to dynamically create inventory from a terraf
 `$file = "$env:temp\ConfigureRemotingForAnsible.ps1"`\
 `(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)`\
 `powershell.exe -ExecutionPolicy ByPass -File $file`
+
+## Check out teh example project for next steps!
