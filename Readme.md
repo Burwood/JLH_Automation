@@ -2,6 +2,10 @@
 
 Terraform will be used to provision resources, and Ansible will be used to install and configure software on those resources.
 
+    Useful links
+    Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+    Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual
+
 ## Install WSL
 *Powershell*\
 `dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart`\
@@ -22,10 +26,7 @@ Windows 10 v1903 or higher with Build 18362 or higher supports WSL 2, skip to **
 `Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile Ubuntu2004.appx -UseBasicParsing`\
 `Add-AppxPackage .\Ubuntu2004.appx`
 
-### Useful links
-Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 
-Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual
 
 ## Launch Ubuntu
 Create a user account and set the password
