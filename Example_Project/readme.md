@@ -3,6 +3,9 @@ This expmple project will create a Citrix Virtual Apps & Desktops lab enviornmen
 Terraform is used to provision the required VMs to on-prem vSphere, name them, and join them to the domain.\
 Ansible is used to install pre-requisite software packages, install Citrix components, and run Powershell scripts to configure those components.
 
+## Security warning!
+In this example project, usernames and passwords are stored in plain text.  Obviously that is not secure and not appropriate for working with customer environments.  There are various solutions to store "secrets" either as variables or as encrypted blocks within the code.  Addional examples will be built to illustrate how to secure these secrets.
+
 ## Inventory
 - 2 Delivery Controllers with Director
 - 2 StoreFront Servers
