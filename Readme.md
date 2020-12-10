@@ -36,7 +36,7 @@ let's do everything in our home directory\
 *#!/bin/bash*\
 `cd ~/`
 
-## Install Terraform (It's just an executable!)
+## Install Terraform
 *#!/bin/bash*\
 `curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -`\
 `sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"`\
@@ -49,7 +49,7 @@ let's do everything in our home directory\
 `sudo apt-add-repository --yes --update ppa:ansible/ansible`\
 `sudo apt install ansible`
 
-## Install terraform-inventory (Also just an executable!)
+## Install terraform-inventory
 Terraform-inventory allows ansible to dynamically create inventory from a terraform state file
 
 *#!/bin/bash*\
