@@ -19,7 +19,7 @@ Windows 10 v1903 or higher with Build 18362 or higher supports WSL 2, skip to **
 `$url = "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi"`\
 `(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)`\
 `wsl_update_x64.msi`\
-`wsl --set-default-version 2`\
+`wsl --set-default-version 2`
 
 ## Install Ubuntu
 *Powershell*\
@@ -40,14 +40,14 @@ let's do everything in our home directory\
 *#!/bin/bash*\
 `curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -`\
 `sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"`\
-`sudo apt install terraform`\
+`sudo apt install terraform`
 
 ## Install Ansible
 *#!/bin/bash*\
 `sudo apt update`\
 `sudo apt install software-properties-common`\
 `sudo apt-add-repository --yes --update ppa:ansible/ansible`\
-`sudo apt install ansible`\
+`sudo apt install ansible`
 
 ## Install terraform-inventory
 Terraform-inventory allows ansible to dynamically create inventory from a terraform state file
@@ -55,7 +55,7 @@ Terraform-inventory allows ansible to dynamically create inventory from a terraf
 *#!/bin/bash*\
 `sudo curl -fsSL -o terraform-inventory_0.9_linux_amd64.zip https://github.com/adammck/terraform-inventory/releases/download/v0.9/terraform-inventory_0.9_linux_amd64.zip && sudo unzip terraform-inventory_0.9_linux_amd64.zip`\
 `sudo mv terraform-inventory /usr/bin/`\
-`sudo rm terraform-inventory_0.9_linux_amd64.zip`\
+`sudo rm terraform-inventory_0.9_linux_amd64.zip`
 
 ---
 # Configure the template VM
@@ -69,4 +69,4 @@ Terraform-inventory allows ansible to dynamically create inventory from a terraf
 `$url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"`\
 `$file = "$env:temp\ConfigureRemotingForAnsible.ps1"`\
 `(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)`\
-`powershell.exe -ExecutionPolicy ByPass -File $file`\
+`powershell.exe -ExecutionPolicy ByPass -File $file`
