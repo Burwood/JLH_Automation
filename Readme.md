@@ -53,9 +53,9 @@ let's do everything in our home directory\
 Terraform-inventory allows ansible to dynamically create inventory from a terraform state file
 
 *#!/bin/bash*\
-`sudo curl -fsSL -o terraform-inventory_0.9_linux_amd64.zip https://github.com/adammck/terraform-inventory/releases/download/v0.9/terraform-inventory_0.9_linux_amd64.zip && sudo unzip terraform-inventory_0.9_linux_amd64.zip`\
-`sudo mv terraform-inventory /usr/bin/`\
-`sudo rm terraform-inventory_0.9_linux_amd64.zip`
+`mkdir ~/terraform-inventory && cd terraform-inventory/`\
+`curl -fsSL -o terraform-inventory_0.9_linux_amd64.zip https://github.com/adammck/terraform-inventory/releases/download/v0.9/terraform-inventory_0.9_linux_amd64.zip && unzip terraform-inventory_0.9_linux_amd64.zip`\
+`rm terraform-inventory_0.9_linux_amd64.zip`
 
 ---
 # Configure the template VM
