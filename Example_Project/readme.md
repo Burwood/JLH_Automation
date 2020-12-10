@@ -26,7 +26,26 @@ Ansible is used to install pre-requisite software packages, install Citrix compo
 
 ## Destroy.sh breakdown
 `terraform destroy --var-file="<variable file>"` - Terraform destroys everything in the plan.  This is equivilent to powering off the VMs, deleting them from disk in vSphere, and deleting the VM folder.  A future version should run an Ansible playbook to clean up AD accounts.
-  
+ 
+---
+
+# Configure a template VM
+
+## Install chocolatey
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+```
+
+## Configure WinRM
+```powershell
+$url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
+$file = "$env:temp\ConfigureRemotingForAnsible.ps1"
+(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
+powershell.exe -ExecutionPolicy ByPass -File $file
+``` 
+
+---
+ 
 ## Terraform and Ansible info and instructions to come!
 
 ## References
