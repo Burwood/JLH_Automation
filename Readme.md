@@ -4,9 +4,9 @@ The goal of this project is to enable consultants who aren't focused on DevOps a
 
 Terraform will be used to provision resources, and Ansible will be used to install and configure software on those resources.  Terraform is available for Windows, so if you only plan on automating provisioning, skip everything below, download Terraform from here: https://www.terraform.io/downloads.html and jump over to the [example project](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project).
 
-    Useful links
-    Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10
-    Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual
+Useful links\
+Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10 \
+Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual
 
 ## Install WSL (Windows Subsystem for Linux)
 ```powershell
