@@ -20,7 +20,7 @@ Ansible is used to install pre-requisite software packages, install Citrix compo
 
 `TF_STATE=./terraform/` - Terraform-inventory will parse the Terraform state and parse it so Ansible can read it as an Ansible inventory.
 
-'ansible-playbook --inventory-file=../terraform-inventory/terraform-inventory ./ansible/playbook-async.yml -e @./ansible/vars.yml`
+`ansible-playbook --inventory-file=../terraform-inventory/terraform-inventory ./ansible/playbook-async.yml -e @./ansible/vars.yml` - Run the Ansible playbook, referencing the inventory file and the variable file.
 
 
 ## References
