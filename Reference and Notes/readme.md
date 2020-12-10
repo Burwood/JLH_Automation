@@ -11,6 +11,6 @@ List of BW github repos:
 - https://github.com/Burwood/terraform-aws-jmccollum
 - https://github.com/Burwood/Windows
 
-Kubernets on Ubuntu: https://phoenixnap.com/kb/install-kubernetes-on-ubuntu\
+Kubernets on Ubuntu: https://phoenixnap.com/kb/install-kubernetes-on-ubuntu \
 I successfully created a 3 node k8s cluster from this guide.
 
