@@ -1,5 +1,7 @@
 # Getting Started with Automation
 
+The goal of this project is to enable consultants who aren't focused on DevOps a quick path to leveraging automation tools in thier projects.
+
 Terraform will be used to provision resources, and Ansible will be used to install and configure software on those resources.
 
     Useful links
