@@ -30,6 +30,6 @@ Ansible is used to install pre-requisite software packages, install Citrix compo
 ## Terraform and Ansible info and instructions to come!
 
 ## References
-https://www.terraform.io/docs/commands/
-https://github.com/adammck/terraform-inventory
+https://www.terraform.io/docs/commands \
+https://github.com/adammck/terraform-inventory \
 https://github.com/ryancbutler/Citrix-VAD-LAB (The source I stole everything from!)
