@@ -65,8 +65,8 @@ rm terraform-inventory_0.9_linux_amd64.zip
 ```
 
 ## Install an editor (optional)
-Visual Studio Code: https://code.visualstudio.com/
-Notepad++: https://notepad-plus-plus.org/downloads/
+Visual Studio Code: https://code.visualstudio.com/ \
+Notepad++: https://notepad-plus-plus.org/downloads/ \
 Sublime Text: https://www.sublimetext.com/
 
 
