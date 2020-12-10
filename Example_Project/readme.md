@@ -25,7 +25,7 @@ Ansible is used to install pre-requisite software packages, install Citrix compo
 ## Destroy.sh breakdown
 `terraform destroy --var-file="<variable file>"` - Terraform destroys everything in the plan.  This is equivilent to powering off the VMs, deleting them from disk in vSphere, and deleting the VM folder.  A future version should run an Ansible playbook to clean up AD accounts.
   
-## Terraform and Ansible info to come!
+## Terraform and Ansible info and instructions to come!
 
 ## References
 https://www.terraform.io/docs/commands/
