@@ -24,6 +24,7 @@ Windows 10 v1903 or higher with Build 18362 or higher supports WSL 2, skip to **
 
 ### Useful links
 Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+
 Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual
 
 ## Launch Ubuntu
