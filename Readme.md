@@ -28,8 +28,6 @@ Windows 10 v1903 or higher with Build 18362 or higher supports WSL 2, skip to **
 `Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile Ubuntu2004.appx -UseBasicParsing`\
 `Add-AppxPackage .\Ubuntu2004.appx`
 
-
-
 ## Launch Ubuntu
 Create a user account and set the password
 
@@ -78,6 +76,7 @@ Terraform-inventory allows ansible to dynamically create inventory from a terraf
 ---
 
 #### Project Development Goals
+- Package the local workstation install steps into a Windows script and a Linux script
 - Break down example project with comments
 - Review other Burwood repos and reuse code for GCP and Azure deployments
 - Work with other teams to create templates for other technologies in the professional services product catalog
