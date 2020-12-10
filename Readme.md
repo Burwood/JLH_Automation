@@ -26,7 +26,7 @@ Windows 10 v1903 or higher with Build 18362 or higher supports WSL 2, skip to **
 `Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile Ubuntu2004.appx -UseBasicParsing`\
 `Add-AppxPackage .\Ubuntu2004.appx`
 
-Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual\
+Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual
 
 ## Launch Ubuntu
 Create a user account and set the password
