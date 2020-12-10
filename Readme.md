@@ -8,7 +8,7 @@ Terraform will be used to provision resources, and Ansible will be used to insta
     Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10
     Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual
 
-## Install WSL
+## Install WSL (Windows Subsystem for Linux)
 *Powershell*\
 `dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart`\
 `reboot`
@@ -36,7 +36,7 @@ let's do everything in our home directory\
 *#!/bin/bash*\
 `cd ~/`
 
-## Install Terraform
+## Install Terraform (It's just an executable!)
 *#!/bin/bash*\
 `curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -`\
 `sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"`\
@@ -49,7 +49,7 @@ let's do everything in our home directory\
 `sudo apt-add-repository --yes --update ppa:ansible/ansible`\
 `sudo apt install ansible`
 
-## Install terraform-inventory
+## Install terraform-inventory (Also just an executable!)
 Terraform-inventory allows ansible to dynamically create inventory from a terraform state file
 
 *#!/bin/bash*\
