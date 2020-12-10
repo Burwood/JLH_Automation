@@ -89,3 +89,6 @@ powershell.exe -ExecutionPolicy ByPass -File $file
 - Break down example project with comments
 - Review other Burwood repos and reuse code for GCP and Azure deployments
 - Work with other teams to create templates for other technologies in the professional services product catalog
+- Move secrets to a secure solution
+  - pass
+  - Hashicorp Vault
