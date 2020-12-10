@@ -1,6 +1,6 @@
 # Getting Started with Automation
 
-    Future step - create a scripted deployment to automate these steps
+Terraform will be used to provision resources, and Ansible will be used to install and configure software on those resources.
 
 ## Install pre-reqs
 
