@@ -64,22 +64,6 @@ curl -fsSL -o terraform-inventory_0.9_linux_amd64.zip https://github.com/adammck
 rm terraform-inventory_0.9_linux_amd64.zip
 ```
 
----
-# Configure the template VM
-
-## Install chocolatey
-```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-```
-
-## Configure WinRM
-```powershell
-$url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
-$file = "$env:temp\ConfigureRemotingForAnsible.ps1"
-(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
-powershell.exe -ExecutionPolicy ByPass -File $file
-```
-
 # Check out the [example project](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project) for next steps!
 
 ---
