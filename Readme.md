@@ -82,3 +82,5 @@ Sublime Text: https://www.sublimetext.com/
 - Move secrets to a secure solution
   - pass
   - Hashicorp Vault
+
+Add from EK
