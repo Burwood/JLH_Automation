@@ -1,10 +1,10 @@
 # Project Description
-This expmple project will create a Citrix Virtual Apps & Desktops lab enviornment.\
+This example project will create a Citrix Virtual Apps & Desktops lab environment.\
 Terraform is used to provision the required VMs to on-prem vSphere, name them, and join them to the domain.\
 Ansible is used to install pre-requisite software packages, install Citrix components, and run Powershell scripts to configure those components.
 
 ## Security warning!
-In this example project, usernames and passwords are stored in plain text.  Obviously that is not secure and not appropriate for working with customer environments.  There are various solutions to store "secrets" either as variables or as encrypted blocks within the code.  Addional examples will be built to illustrate how to secure these secrets.
+In this example project, usernames and passwords are stored in plain text.  Obviously that is not secure and not appropriate for working with customer environments.  There are various solutions to store "secrets" either as variables or as encrypted blocks within the code.  Additional examples will be built to illustrate how to secure these secrets.
 
 ## Inventory
 - 2 Delivery Controllers with Director
@@ -28,7 +28,7 @@ In this example project, usernames and passwords are stored in plain text.  Obvi
 `ansible-playbook --inventory-file=../terraform-inventory/terraform-inventory ./ansible/playbook-async.yml -e @./ansible/vars.yml` - Run the Ansible playbook, referencing the inventory file and the variable file.
 
 ## Destroy.sh breakdown
-`terraform destroy --var-file="<variable file>"` - Terraform destroys everything in the plan.  This is equivilent to powering off the VMs, deleting them from disk in vSphere, and deleting the VM folder.  A future version should run an Ansible playbook to clean up AD accounts.
+`terraform destroy --var-file="<variable file>"` - Terraform destroys everything in the plan.  This is equivalent to powering off the VMs, deleting them from disk in vSphere, and deleting the VM folder.  A future version should run an Ansible playbook to clean up AD accounts.
  
 ---
 
