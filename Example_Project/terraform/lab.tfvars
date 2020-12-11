@@ -1,3 +1,4 @@
+# Ideally, our secrets would be encrypted and stored externally from the project
 
 #vsphere connetion info
 vsphere_server     = "vcenter.domain.com"
