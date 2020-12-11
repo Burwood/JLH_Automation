@@ -32,7 +32,12 @@ In this example project, usernames and passwords are stored in plain text.  Obvi
  
 ---
 
-# Configure a template VM
+# Take a look at the [Terraform](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project/terraform) and [Ansible](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project/ansible) directories to learn more about each
+
+---
+## Next steps - Configure a template VM
+
+**Note** This project expects there to be one snapshot on the template VM so we can leverage linked-clones
 
 ## Install chocolatey
 ```powershell
@@ -48,8 +53,6 @@ powershell.exe -ExecutionPolicy ByPass -File $file
 ``` 
 
 ---
- 
-# Terraform and Ansible info and instructions to come!
 
 ## References
 https://www.terraform.io/docs/commands \
