@@ -1,3 +1,4 @@
+# In this file, we define the names of variables we will use in main.tf and provide descriptions of what the variable is for.  It is best practice to define the variables in a separate file from thier values to keep everything portable and modular.
 variable "vsphere_server" {
   description = "vsphere server for the environment"
 }
