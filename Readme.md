@@ -8,7 +8,7 @@ Useful links:\
 Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10 \
 Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/install-manual
 
-## Install WSL (Windows Subsystem for Linux)
+# Install WSL (Windows Subsystem for Linux)
 ```powershell
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 reboot
@@ -34,20 +34,20 @@ Add-AppxPackage .\Ubuntu2004.appx
 ## Launch Ubuntu
 Create a user account and set the password
 
-## Install automation tools
+# Install automation tools
 let's do everything in our home directory
 ```bash
 cd ~/
 ```
 
-## Install Terraform
+### Install Terraform
 ```bash
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt install terraform
 ```
 
-## Install Ansible
+### Install Ansible
 ```bash
 sudo apt update
 sudo apt install software-properties-common
@@ -55,7 +55,7 @@ sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
 ```
 
-## Install terraform-inventory
+### Install terraform-inventory
 Terraform-inventory allows ansible to dynamically create inventory from a terraform state file
 
 ```bash
@@ -64,7 +64,40 @@ curl -fsSL -o terraform-inventory_0.9_linux_amd64.zip https://github.com/adammck
 rm terraform-inventory_0.9_linux_amd64.zip
 ```
 
-## Install an editor (optional)
+### Install pass and gpg
+```bash
+sudo apt install pass gnupg2
+```
+
+Create a GPG key
+```bash
+gpg2 --gen-key
+```
+
+You will see output similar to the following.  Make sure to save the 20byte hex key.
+
+	gpg: key <8byte-hex> marked as ultimately trusted
+	gpg: directory '/home/jheistand/.gnupg/openpgp-revocs.d' created
+	gpg: revocation certificate stored as '/home/jheistand/.gnupg/openpgp-revocs.d/<20byte-hex>.rev'
+	public and secret key created and signed.
+	pub   rsa3072 2020-12-14 [SC] [expires: 2022-12-14]
+		  <20byte-hex>
+	uid                      James Heistand <jheistand@burwood.com>
+	sub   rsa3072 2020-12-14 [E] [expires: 2022-12-14]
+
+Add your GPG key to your bash profile for programs to autmatically use it
+
+```bash
+echo "export GPGKEY=<last 4hex bytes>" >> ~/.profile
+```
+
+Setup pass, a simple CLI based password vault.  
+
+```bash
+pass init "<last 4hex bytes>"
+```
+
+### Install an editor (optional)
 Visual Studio Code: https://code.visualstudio.com/ \
 Notepad++: https://notepad-plus-plus.org/downloads/ \
 Sublime Text: https://www.sublimetext.com/
