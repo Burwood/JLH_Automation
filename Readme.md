@@ -109,6 +109,7 @@ Sublime Text: https://www.sublimetext.com/
 
 #### Project Development Goals
 - Package the local workstation install steps into a Windows script and a Linux script
+- Create container that has everything ready to go
 - Break down example project with comments
 - Review other Burwood repos and reuse code for GCP and Azure deployments
 - Work with other teams to create templates for other technologies in the professional services product catalog
