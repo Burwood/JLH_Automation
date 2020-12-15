@@ -74,6 +74,12 @@ unzip /mnt/c/Users/jheistand/Downloads/JLH_Automation-master.zip "JLH_Automation
 
 ```
 
+### Update the variable files to match your environment
+```bash
+nano ~/JLH_Automation-master/Example_Project/Ansible/vars.yml
+nano ~/JLH_Automation-master/Example_Project/Terraform/lab.tfvars
+```
+
 ### Run the build.sh script
 ```bash
 cd ~/JLH_Automation-master/Example_Project/
