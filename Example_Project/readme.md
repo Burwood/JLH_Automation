@@ -1,7 +1,7 @@
 # Project Description
-This example project will create a SQL server.
-Terraform is used to provision the VM to on-prem vSphere, rename it, and join it to the domain.\
-Ansible is used to install pre-requisite software packages, and run Powershell scripts to configure .
+This example project will create a SQL server. \
+Terraform is used to provision the VM to on-prem vSphere, rename it, and join it to the domain. \
+Ansible is used to install software packages.
 
 ## Inventory
 - 1 SQL Server
