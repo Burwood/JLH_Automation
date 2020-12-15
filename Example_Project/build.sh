@@ -1,7 +1,5 @@
 #!/bin/bash
 export TF_STATE=./terraform
-# open the password database with a dummy secret
-pass testuser
 # export secrets to variables for terraform and store them in memory
 export TF_VAR_vsphere_user=$(pass vsphere_user)
 export TF_VAR_vsphere_pass=$(pass vsphere_pass)                       
