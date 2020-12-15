@@ -8,10 +8,12 @@ variable "vsphere_server" {
 
 variable "vsphere_user" {
   description = "vsphere server for the environment"
+  sensitive = true # New in TF 0.14, this arguement will exlude this from being written to logs
 }
 
-variable "vsphere_password" {
+variable "vsphere_pass" {
   description = "vsphere server password for the environment"
+  sensitive = true
 }
 
 variable "vsphere_datacenter" {
@@ -38,13 +40,14 @@ variable "vsphere_network" {
   description = "vsphere network for deployed vms"
 }
 
-
 variable "domain_user" {
   description = "Domain Admin User"
+  sensitive = true
 }
 
-variable "domain_password" {
+variable "domain_pass" {
   description = "Domain Admin Password"
+  sensitive = true
 }
 
 variable "domain" {
@@ -55,20 +58,8 @@ variable "vsphere_linkedclones" {
   description = "Use linked clones to deploy"
 }
 
-
-variable "vm_storefront" {
-  description = "Prefix for Storefront servers"
-}
-
-variable "vm_ddc" {
-  description = "Prefix for DDC servers"
-}
 variable "vm_sql" {
-  description = "Name for SQL and license server"
-}
-
-variable "vm_vda" {
-  description = "Prefix for VDA server"
+  description = "Prefix for SQL servers"
 }
 
 variable "vsphere_timezone" {

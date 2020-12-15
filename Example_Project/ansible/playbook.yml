@@ -4,44 +4,9 @@
    - enablerdp
    - base
 
-- hosts: ddc
-  roles:
-   - ddc
-  # - director
-
-- hosts: storefront
-  roles:
-   - storefront
-
 - hosts: sql
   roles:
    - sql
-   - license
-
-- hosts: ddc.0
-  roles:
-    - createsite
-
-- hosts: ddc.1
-  roles:
-    - createsite
-
-- hosts: storefront.0
-  roles:
-    - storefront-init
-
-- hosts: storefront.1
-  roles:
-    - storefront-join
-
-- hosts: vda
-  roles:
-    - vda
-
-- hosts: ddc.0
-  gather_facts: no
-  roles:
-    - site-hydrate
 
 - hosts: all
   gather_facts: no
