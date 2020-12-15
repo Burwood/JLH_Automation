@@ -49,6 +49,9 @@ $file = "$env:temp\ConfigureRemotingForAnsible.ps1"
 powershell.exe -ExecutionPolicy ByPass -File $file
 ``` 
 
+### Download the SQL ISO
+Mount the ISO and extract the contents to a network share.  Or don't, save some time, and watch the errors.  It still should be a meaningful exercise!
+
 ### Populate secrets in pass
 We will create all our project secrets and a dummy secret "testuser".  Avoid "-" in the secret name, as Ansible doesn't like that character in a variable. The first time you query the pass database, it will prompt you for your master password.  We will use the testuser secret to query the pass database before running the scripts.
 
