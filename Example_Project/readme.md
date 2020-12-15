@@ -3,11 +3,6 @@ This example project will create a SQL server.
 Terraform is used to provision the VM to on-prem vSphere, rename it, and join it to the domain.\
 Ansible is used to install pre-requisite software packages, and run Powershell scripts to configure .
 
-<!-->
-## Security warning!
-In this example project, usernames and passwords are stored in plain text.  Obviously that is not secure and not appropriate for working with customer environments.  There are various solutions to store "secrets" either as variables or as encrypted blocks within the code.  Additional examples will be built to illustrate how to secure these secrets.
--->
-
 ## Inventory
 - 1 SQL Server
 
