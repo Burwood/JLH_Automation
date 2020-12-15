@@ -29,22 +29,56 @@ Ansible is used to install software packages.
 # Take a look at the [Terraform](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project/terraform) and [Ansible](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project/ansible) directories to learn more about each
 
 ---
-## Next steps - Configure a template VM
+
+# Next steps
+
+## Configure a template VM
 
 **Note** This project expects there to be one snapshot on the template VM so we can leverage linked-clones
 
-## Install chocolatey
+### Install chocolatey
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 ```
 
-## Configure WinRM
+### Configure WinRM
 ```powershell
 $url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
 $file = "$env:temp\ConfigureRemotingForAnsible.ps1"
 (New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
 powershell.exe -ExecutionPolicy ByPass -File $file
 ``` 
+
+### Populate secrets in pass
+We will create all our project secrets and a dummy secret "testuser".  Avoid "-" in the secret name, as Ansible doesn't like that character in a variable. The first time you query the pass database, it will prompt you for your master password.  We will use the testuser secret to query the pass database before running the scripts.
+
+Run these one at a time, as each will prompt for the value of that secret.  
+
+```bash
+pass insert testuser
+pass insert vsphere_user
+pass insert vsphere_pass                       
+pass insert domain_user
+pass insert domain_pass
+pass insert ansible_user
+pass insert ansible_pass
+pass insert sql_user
+pass insert sql_pass
+```
+
+### Copy the repo locally
+I have some work to do to allow git clone to work.  For now, click on "<> Code" on the top left, and then the green "Code" dropdown button and select "Download ZIP", I'll assume you saved it in C:\Users\Username\Downloads
+
+```bash
+unzip /mnt/c/Users/jheistand/Downloads/JLH_Automation-master.zip "JLH_Automation-master/Example_Project/*" -d ~/
+
+```
+
+### Run the build.sh script
+```bash
+cd ~/JLH_Automation-master/Example_Project/
+./build.sh
+```
 
 ---
 
