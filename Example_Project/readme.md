@@ -77,6 +77,7 @@ unzip /mnt/c/Users/jheistand/Downloads/JLH_Automation-master.zip "JLH_Automation
 ### Run the build.sh script
 ```bash
 cd ~/JLH_Automation-master/Example_Project/
+pass testuser
 ./build.sh
 ```
 
