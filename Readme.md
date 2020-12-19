@@ -116,3 +116,4 @@ Sublime Text: https://www.sublimetext.com/
 - [x] Move secrets to a secure solution
   - pass
   - Hashicorp Vault
+- [ ] Add documentation output
