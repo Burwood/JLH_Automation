@@ -13,7 +13,7 @@
 
 The goal of this project is to enable consultants who aren't focused on DevOps a quick path to leveraging automation tools in thier projects.
 
-Terraform will be used to provision resources, and Ansible will be used to install and configure software on those resources.  Terraform is available for Windows, so if you only plan on automating provisioning, skip everything below, download Terraform from here: https://www.terraform.io/downloads.html and jump over to the [example project](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project).
+Terraform will be used to provision resources, and Ansible will be used to install and configure software on those resources.  ~~Terraform is available for Windows, so if you only plan on automating provisioning, skip everything below, download Terraform from here: https://www.terraform.io/downloads.html and jump over to the [example project](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project).~~ Note: pass is used for secrets management in this project and is only available for Linux.  I will rewrite the example with HashiCorp Vault once I figure it out.
 
 Useful links:\
 Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10 \
