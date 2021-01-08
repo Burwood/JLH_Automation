@@ -1,0 +1,4 @@
+---
+- hosts: ddc.0
+  roles:
+    - docs

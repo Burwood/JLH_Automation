@@ -1,0 +1,19 @@
+---
+- name: Create Docs Folder
+  win_file:
+    path: C:\docs
+    state: directory
+
+- name: Running CVAD Doc Script
+  script: "CVAD_Inventory_V3_Signed.ps1 -HTML -Folder c:\\docs"
+  args: 
+
+- name: Zip up docs
+  script: zipdocs.ps1
+  args: 
+
+- name: Fetch docs.zip
+  fetch:
+    src: c:\docs\docs.zip
+    dest: ../docs/docs.zip
+    flat: yes

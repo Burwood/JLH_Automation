@@ -1,0 +1,4 @@
+# sql_svc_account: 
+# sql_svc_password: 
+# sql_admins: domain.com\sqladmins
+# sql_path: \\172.20.4.70\DATA\SQL
