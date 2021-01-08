@@ -1,3 +1,14 @@
+# Active Goals
+- [ ] Learn Hashicorp Vault and create howto
+- [ ] Create repo for Provisioning and Configuration Management
+	- Providers
+	- Service Catalog
+	- Integrations
+- [ ] Create Terraform guide and templates for vSphere and Azure
+- [ ] Create Ansible pre-requisite guide and scripts
+
+
+
 # Getting Started with Automation
 
 The goal of this project is to enable consultants who aren't focused on DevOps a quick path to leveraging automation tools in thier projects.
@@ -107,13 +118,3 @@ Sublime Text: https://www.sublimetext.com/
 
 ---
 
-#### Project Development Goals
-- [ ] Package the local workstation install steps into a Windows script and a Linux script
-- [ ] Create container that has everything ready to go
-- [x] Break down example project with comments
-- [ ] Review other Burwood repos and reuse code for GCP and Azure deployments
-- [ ] Work with other teams to create templates for other technologies in the professional services product catalog
-- [x] Move secrets to a secure solution
-  - pass
-  - Hashicorp Vault
-- [ ] Add documentation output
