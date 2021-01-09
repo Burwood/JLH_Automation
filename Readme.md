@@ -1,14 +1,3 @@
-# Active Goals
-- [ ] Learn Hashicorp Vault and create howto
-- [ ] Create repo for Provisioning and Configuration Management
-	- Providers
-	- Service Catalog
-	- Integrations
-- [ ] Create Terraform guide and templates for vSphere and Azure
-- [ ] Create Ansible pre-requisite guide and scripts
-
-
-
 # Getting Started with Automation
 
 The goal of this project is to enable consultants who aren't focused on DevOps a quick path to leveraging automation tools in their projects.
