@@ -11,9 +11,14 @@
 
 # Getting Started with Automation
 
-The goal of this project is to enable consultants who aren't focused on DevOps a quick path to leveraging automation tools in thier projects.
+The goal of this project is to enable consultants who aren't focused on DevOps a quick path to leveraging automation tools in their projects.
 
-Terraform will be used to provision resources, and Ansible will be used to install and configure software on those resources.  ~~Terraform is available for Windows, so if you only plan on automating provisioning, skip everything below, download Terraform from here: https://www.terraform.io/downloads.html and jump over to the [example project](https://github.com/Burwood/JLH_Automation/tree/master/Example_Project).~~ Note: pass is used for secrets management in this project and is only available for Linux.  I will rewrite the example with HashiCorp Vault once I figure it out.
+Terraform will be used to provision resources.  Ansible will be used to install and configure software on those resources.  Pass will be used to securely store usernames, passwords, and other sensitive data.  
+
+> Both Terraform and Ansible were chosen because they are agent-less and do not require a central management server to be deployed in the customer's environment.  Pass was chosen because it is super simple, can be quickly built and destroyed, and the secrets can be contained on the client's network if needed.
+
+> Terraform is available for Windows, but Ansible and Pass are not.  I started working on a guide for using Terraform in Windows but the solutions for protecting usernames and passwords were either much more complex, poorly maintained, or had to be licensed.  It would also mean that the modularity of code snippets would be client OS restricted. Plus, Ansible is so much better at configuration management than Terraform that I decided to scrap the whole idea.  If you are new to Linux, feel free to reach out.  I would be happy to help as it can be a bit frustrating at first.
+
 
 Useful links:\
 Install WSL docs: https://docs.microsoft.com/en-us/windows/wsl/install-win10 \
