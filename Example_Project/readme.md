@@ -13,8 +13,6 @@ Ansible is used to install software packages.
 
 `terraform apply --var-file="<variable file>"` - Terraform will execute the plan. Insert `--auto-approve' if you do not want to be prompted for confirmation.
 
- **NOTE - If you are just using Terraform, delete or comment out everything after the `terraform apply` command.**
-
 `sleep 60s` - Pause before executing the Ansible playbook.
 
 `TF_STATE=./terraform/` - Terraform-inventory will parse the Terraform state and parse it so Ansible can read it as an Ansible inventory.
