@@ -66,7 +66,7 @@ Right click on each of the following files > Save link as... > Save it to your D
     terraform\values.tfvars
     terraform\variables.tf
 
-If we create new files in Ubuntu from Windows, Ubuntu doesn't see them properly.  So we will copy from Ubuntu.  Note, once a file exists in Ubuntu, you can edit it within Windows! You can access the Ubuntu file structure from a path simliar to this: 
+If we create new files in Ubuntu from Windows, Ubuntu doesn't see them properly.  So we will copy from Ubuntu.  Note, once a file exists in Ubuntu, you can edit it within Windows! You can access the Ubuntu file structure from a path similar to this: 
 
 `C:\Users\jheistand\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\rootfs\`
 
