@@ -55,7 +55,17 @@ pass insert domain_pass
 ```
 
 ## Copy the repo locally
-I have some work to do to allow git clone to work.  For now, download Example_Project.zip and extract it.
+I have some work to do to allow git clone to work for a subset of the repo.  For now, we will download Example_Project.zip and extract it.
+
+Right click on `Example_Project.zip` > `Save link as...` > Save it to your Downloads folder \
+If we create new files in WSL from Windows, WSL doesn't see them properly.  So we will copy from WSL.  Note, once a file exists in WSL, you can edit it within Windows!
+
+Open the Ubuntu / WSL console
+
+```bash
+cp /mnt/c/Users/jheistand/Downloads/Example_Project.zip ~/
+
+
 
 C:\Users\jheistand\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\rootfs\home\jheistand
 
