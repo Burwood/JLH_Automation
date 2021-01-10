@@ -1,18 +1,19 @@
 #!/bin/bash
-export TF_STATE=./terraform
-# export secrets to variables for terraform and store them in memory
+# Create builddoc stub
+echo '## VM Inventory' >> builddoc.md
+
+# open the password database with a dummy secret, export secrets to variables for terraform, export terraform state
+pass testuser > /dev/null
 export TF_VAR_vsphere_user=$(pass vsphere_user)
 export TF_VAR_vsphere_pass=$(pass vsphere_pass)                       
 export TF_VAR_domain_user=$(pass domain_user)
 export TF_VAR_domain_pass=$(pass domain_pass)
-# begin terraform stuff
+export TF_STATE=./terraform
+
+# change to the terraform directory, initialize, and run the build 
 cd terraform
 terraform init
-terraform plan --var-file="lab.tfvars"
-terraform apply --var-file="lab.tfvars" # Use the "--auto-approve" argument to not be prompted to confirm
-sleep 60s
+# terraform plan --var-file="lab.tfvars"
+terraform apply --var-file="values.tfvars"
+cat tf_doc.md >> ../builddoc.md
 cd ..
-# export terraform state
-TF_STATE=./terraform/
-# Run the ansible playbook 
-ansible-playbook --inventory-file=..//terraform-inventory/terraform-inventory ./ansible/playbook.yml -e @./ansible/vars.yml -vvvv # "-vvvv" gives you verbose output
