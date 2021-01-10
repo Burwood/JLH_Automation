@@ -88,12 +88,15 @@ You can do this in Windows using one of the editors recommended on the top-level
 ```bash
 nano ~/Example_Project/Terraform/values.tfvars
 ```
-
+Visual Studio Code
 ### Run the build.sh script
 ```bash
 cd ~/Example_Project/
 ./build.sh
 ```
+
+## Check out the auto-created document
+The file `builddoc.md` will be generated during the build.  If you downloaded Visual Studio Code, it will recognize markdown format.  Open it with VSS and click on the preview button in the top right.  It looks like two rectangles and a magnifying glass.
 
 ---
 

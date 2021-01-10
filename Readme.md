@@ -103,7 +103,7 @@ pass init "<last 4hex bytes>"
 ```
 
 ### Install an editor (optional)
-Visual Studio Code: https://code.visualstudio.com/ \
+Visual Studio Code: https://code.visualstudio.com/ **Highly Recommended!**\
 Notepad++: https://notepad-plus-plus.org/downloads/ \
 Sublime Text: https://www.sublimetext.com/
 
