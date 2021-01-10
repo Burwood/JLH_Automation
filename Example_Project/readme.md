@@ -84,6 +84,7 @@ cp /mnt/c/Users/<your username>/Downloads/variables.tf ~/Example_Project/terrafo
 ```
 
 ### Update the variable files to match your environment
+You can do this in Windows using one of the editors recommended on the top-level page, or via a Linux text editor such as nano, vi, or emacs.
 ```bash
 nano ~/Example_Project/Terraform/values.tfvars
 ```
