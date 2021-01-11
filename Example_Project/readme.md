@@ -1,5 +1,5 @@
 # Project Description
-This example project will use Terraform to provision the VM to on-prem vSphere, rename it, and join it to the domain.
+This example project will use Terraform to provision a VM to on-prem vSphere, rename it, and join it to the domain.
 
 
 ## Inventory
