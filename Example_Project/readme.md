@@ -1,6 +1,9 @@
 # Project Description
 This example project will use Terraform to provision a VM to on-prem vSphere, rename it, and join it to the domain.
 
+## Project workflow
+This project only uses Terraform, but a full Infrastructure as Code (IaC) solution would include the Ansible process flow.
+![](tf_workflow.png)
 
 ## Inventory
 - 1 VM named sql01
@@ -13,7 +16,6 @@ Script process flow
 - `terraform init` - Terraform reads all the .tf files to identify needed plugins and modules and downloads them to the current project directory.
 - `terraform plan --var-file="<variable file>"` - Terraform outputs what it is going to do based on all the project files, but doesn't execute the project. `-out=path` will save the output to a file.
 - `terraform apply --var-file="<variable file>"` - Terraform will execute the plan. Insert `--auto-approve` if you do not want to be prompted for confirmation.
-
 
 ## Destroy.sh breakdown
 Script process flow
