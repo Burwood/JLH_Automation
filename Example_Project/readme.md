@@ -106,6 +106,10 @@ The file `builddoc.md` will be generated during the build.  If you downloaded Vi
 
 ---
 
+# Did it work???
+Please let me know of any steps you had to figure out, or were incorrect. \
+For the next challenge, check out this next project that adds in Ansible: [Citrix On-Prem](https://github.com/Burwood/JLH_Automation/tree/master/Citrix%20On-Prem)
+
 ## References I used to create this project
 https://www.terraform.io/docs/commands \
 https://github.com/adammck/terraform-inventory \
