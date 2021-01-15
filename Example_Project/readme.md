@@ -109,7 +109,6 @@ The file `builddoc.md` will be generated during the build.  If you downloaded Vi
 ## References I used to create this project
 https://www.terraform.io/docs/commands \
 https://github.com/adammck/terraform-inventory \
-https://github.com/ryancbutler/Citrix-VAD-LAB \
 https://www.passwordstore.org/ \
 https://git.zx2c4.com/password-store/about/
 
