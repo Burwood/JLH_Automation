@@ -5,6 +5,9 @@ This example project will use Terraform to provision a VM to on-prem vSphere, re
 This project only uses Terraform, but a full Infrastructure as Code (IaC) solution would include the Ansible process flow.
 ![](tf_workflow.png)
 
+## Pre-requisites
+- A Windows Server 2019 template in vSphere
+
 ## Inventory
 - 1 VM named sql01
 
@@ -90,7 +93,7 @@ You can do this in Windows using one of the editors recommended on the top-level
 ```bash
 nano ~/Example_Project/Terraform/values.tfvars
 ```
-Visual Studio Code
+
 ### Run the build.sh script
 ```bash
 cd ~/Example_Project/
