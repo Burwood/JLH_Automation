@@ -16,3 +16,7 @@ Process Workflow: \
 - 2 Delivery Controller / Director servers
 - 2 StoreFront servers
 - 1 RDSH VDA
+
+### Credits
+A lot of the code was sourced from here and modified to meet my goals: \
+https://github.com/ryancbutler/Citrix-VAD-LAB
