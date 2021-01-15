@@ -7,6 +7,7 @@ This project only uses Terraform, but a full Infrastructure as Code (IaC) soluti
 
 ## Pre-requisites
 - A Windows Server 2019 template in vSphere
+- An Active Directory account with domain join permissions
 
 ## Inventory
 - 1 VM named sql01
