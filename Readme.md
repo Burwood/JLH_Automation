@@ -34,6 +34,8 @@ Add-AppxPackage .\Ubuntu2004.appx
 ```
 
 ## Launch Ubuntu
+NOTE: If you are installing on a VM, make sure that Intel VT is enabled in the BIOS
+
 Create a user account and set the password
 
 # Install automation tools
