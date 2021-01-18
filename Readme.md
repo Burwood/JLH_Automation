@@ -63,6 +63,7 @@ sudo apt install ansible
 Terraform-inventory allows ansible to dynamically create inventory from a terraform state file
 
 ```bash
+sudo apt install unzip
 mkdir ~/terraform-inventory && cd terraform-inventory/
 curl -fsSL -o terraform-inventory_0.9_linux_amd64.zip https://github.com/adammck/terraform-inventory/releases/download/v0.9/terraform-inventory_0.9_linux_amd64.zip && unzip terraform-inventory_0.9_linux_amd64.zip
 rm terraform-inventory_0.9_linux_amd64.zip
