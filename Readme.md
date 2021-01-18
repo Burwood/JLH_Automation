@@ -16,23 +16,20 @@ Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/
 # Install WSL (Windows Subsystem for Linux)
 ```powershell
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-reboot
+shutdown -r -t 0
 ```
 
 ## Update to WSL 2
 Windows 10 v1903 or higher with Build 18362 or higher supports WSL 2, skip to **Install Ubuntu** if older
 ```powershell
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-reboot
-$url = "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi"
-(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
-wsl_update_x64.msi
+shutdown -r -t 0
 wsl --set-default-version 2
 ```
 
 ## Install Ubuntu
 ```powershell
-Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile Ubuntu2004.appx -UseBasicParsing`
+Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile Ubuntu2004.appx -UseBasicParsing
 Add-AppxPackage .\Ubuntu2004.appx
 ```
 
