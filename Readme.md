@@ -22,6 +22,8 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 Windows 10 v1903 or higher with Build 18362 or higher supports WSL 2, skip to **Install Ubuntu** if older
 ```powershell
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all
+wget "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" -outfile "wsl_update_x64.msi"
+wsl_update_x64.msi
 wsl --set-default-version 2
 ```
 
