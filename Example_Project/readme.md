@@ -80,6 +80,10 @@ NOTE: If we create new files in Ubuntu from Windows, Ubuntu doesn't see them pro
 
 `C:\Users\jheistand\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\rootfs\`
 
+Or if you need to go the other way, and see the Windows file system in Ubuntu, here is the path:
+
+`/mnt/c/`
+
 ```bash
 nano ~/Example_Project/Terraform/values.tfvars
 ```
