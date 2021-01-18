@@ -15,15 +15,13 @@ Additional Linux distro downloads: https://docs.microsoft.com/en-us/windows/wsl/
 
 # Install WSL (Windows Subsystem for Linux)
 ```powershell
-dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
-shutdown -r -t 0
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all
 ```
 
 ## Update to WSL 2
 Windows 10 v1903 or higher with Build 18362 or higher supports WSL 2, skip to **Install Ubuntu** if older
 ```powershell
-dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-shutdown -r -t 0
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all
 wsl --set-default-version 2
 ```
 
