@@ -71,12 +71,15 @@ git sparse-checkout init --cone
 git sparse-checkout set Example_Project
 ```
 
-NOTE: If we create new files in Ubuntu from Windows, Ubuntu doesn't see them properly.  So we will copy from Ubuntu.  Note, once a file exists in Ubuntu, you can edit it within Windows! You can access the Ubuntu file structure from a path similar to this: 
 
-`C:\Users\jheistand\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\rootfs\`
 
 ### Update the variable files to match your environment
 You can do this in Windows using one of the editors recommended on the top-level page, or via a Linux text editor such as nano, vi, or emacs.
+
+NOTE: If we create new files in Ubuntu from Windows, Ubuntu doesn't see them properly.  However, once a file exists in Ubuntu, you can edit it within Windows! You can access the Ubuntu file structure from a path similar to this: 
+
+`C:\Users\jheistand\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\rootfs\`
+
 ```bash
 nano ~/Example_Project/Terraform/values.tfvars
 ```
