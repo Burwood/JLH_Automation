@@ -3,12 +3,12 @@ variable "vsphere_server" {
 }
 
 variable "vsphere_user" {
-  description = "vsphere server for the environment"
+  description = "vsphere user for the environment"
   sensitive = true
 }
 
 variable "vsphere_pass" {
-  description = "vsphere server password for the environment"
+  description = "vsphere user password for the environment"
   sensitive = true
 }
 
