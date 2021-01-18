@@ -63,33 +63,17 @@ pass insert domain_pass
 ```
 
 ## Copy the repo locally
-I have some work to do to allow git clone to work for a subset of the repo.  While this totally goes against the spirit of what we are trying to accomplish, for now we will download each file manually.  Github doesn't seem to support storing .zip or .tar files. :(
+Open the Ubuntu console and run the following commands to copy the example project files to ~/test/Example_Project
+```bash
+git clone https://github.com/Burwood/JLH_Automation --no-checkout test
+cd test
+git sparse-checkout init --cone
+git sparse-checkout set Example_Project
+```
 
-
-Right click on each of the following files > Save link as... > Save it to your Downloads folder. Don't worry about folder structure when downloading.
-
-    build.sh
-    destroy.sh
-    terraform\main.tf
-    terraform\values.tfvars
-    terraform\variables.tf
-
-If we create new files in Ubuntu from Windows, Ubuntu doesn't see them properly.  So we will copy from Ubuntu.  Note, once a file exists in Ubuntu, you can edit it within Windows! You can access the Ubuntu file structure from a path similar to this: 
+NOTE: If we create new files in Ubuntu from Windows, Ubuntu doesn't see them properly.  So we will copy from Ubuntu.  Note, once a file exists in Ubuntu, you can edit it within Windows! You can access the Ubuntu file structure from a path similar to this: 
 
 `C:\Users\jheistand\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\rootfs\`
-
-
-Open the Ubuntu console
-
-```bash
-mkdir Example_Project
-mkdir Example_Project/terraform
-cp /mnt/c/Users/<your username>/Downloads/build.sh ~/Example_Project/
-cp /mnt/c/Users/<your username>/Downloads/destroy.sh ~/Example_Project/
-cp /mnt/c/Users/<your username>/Downloads/main.tf ~/Example_Project/terraform/
-cp /mnt/c/Users/<your username>/Downloads/values.tfvars ~/Example_Project/terraform/
-cp /mnt/c/Users/<your username>/Downloads/variables.tf ~/Example_Project/terraform/
-```
 
 ### Update the variable files to match your environment
 You can do this in Windows using one of the editors recommended on the top-level page, or via a Linux text editor such as nano, vi, or emacs.
