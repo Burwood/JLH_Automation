@@ -37,6 +37,8 @@ Script process flow
 Create a Windows Server 2019 VM and install VMware tools if needed
 
 ### Configure WinRM for future projects with Ansible
+NOTE: If you are using an older OS for your template, please refer to this guide for installing WinRM: https://docs.ansible.com/ansible/2.5/user_guide/windows_setup.html
+
 ```powershell
 $url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
 $file = "$env:temp\ConfigureRemotingForAnsible.ps1"
