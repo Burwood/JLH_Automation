@@ -90,7 +90,9 @@ You will see output similar to the following.  Make sure to save the 20byte hex 
 	uid                      James Heistand <jheistand@burwood.com>
 	sub   rsa3072 2020-12-14 [E] [expires: 2022-12-14]
 
+
 Add your GPG key to your bash profile for programs to autmatically use it. 4 hex bytes are represented by 8 hex (base-16) bits. \
+
 Example: A1B2C3D4 is 4 bytes in hex.
 
 ```bash
