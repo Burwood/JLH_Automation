@@ -36,7 +36,7 @@ Script process flow
 ## Configure a template VM
 Create a Windows Server 2019 VM and install VMware tools if needed
 
-### Configure WinRM for future projects with Ansible
+### Configure WinRM for future projects with Ansible (Optional, but will be used for future projects)
 NOTE: If you are using an older OS for your template, please refer to this guide for installing WinRM: https://docs.ansible.com/ansible/2.5/user_guide/windows_setup.html
 
 ```powershell
