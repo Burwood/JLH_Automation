@@ -3,7 +3,7 @@ This example project will use Terraform to provision a VM to on-prem vSphere, re
 
 ## Project workflow
 This project only uses Terraform, but a full Infrastructure as Code (IaC) solution would include the Ansible process flow.
-![](tf_workflow.png)
+![](workflow.png)
 
 ## Pre-requisites
 - A Windows Server 2019 template in vSphere
@@ -50,12 +50,11 @@ powershell.exe -ExecutionPolicy ByPass -File $file
 This project expects there to be one snapshot on the template VM so we can leverage linked-clones
 
 ## Populate secrets in pass
-We will create all our project secrets and a dummy secret "testuser".  Avoid "-" in the secret name, as Ansible doesn't like that character in a variable. The first time you query the pass database, it will prompt you for your master password.  We will use the testuser secret to query the pass database before running the scripts.
+We will create all our project secrets, and a dummy secret "testuser" that we created in the previous exercise.  Avoid "-" in the secret name, as Ansible doesn't like that character in a variable. The first time you query the pass database, it will prompt you for your master password.  We will use the testuser secret to query the pass database at the beginning of our scripts. 
 
 Run these one at a time, as each will prompt for the value of that secret. 
 
 ```bash
-pass insert testuser
 pass insert vsphere_user
 pass insert vsphere_pass                       
 pass insert domain_user
@@ -70,7 +69,6 @@ cd test
 git sparse-checkout init --cone
 git sparse-checkout set Example_Project
 ```
-
 
 
 ### Update the variable files to match your environment
