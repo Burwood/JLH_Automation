@@ -70,6 +70,12 @@ git sparse-checkout init --cone
 git sparse-checkout set Example_Project
 ```
 
+UPDATE: It doesn't look like necessary file permissions are preserved.  Let's fix that!
+
+```bash
+sudo chmod 777 ~/test/Example_Project *.sh
+```
+
 
 ### Update the variable files to match your environment
 You can do this in Windows using one of the editors recommended on the top-level page, or via a Linux text editor such as nano, vi, or emacs.
@@ -83,12 +89,12 @@ Or if you need to go the other way, and see the Windows file system in Ubuntu, h
 `/mnt/c/`
 
 ```bash
-nano ~/Example_Project/Terraform/values.tfvars
+nano ~/test/Example_Project/Terraform/values.tfvars
 ```
 
 ### Run the build.sh script
 ```bash
-cd ~/Example_Project/
+cd ~/test/Example_Project/
 ./build.sh
 ```
 
