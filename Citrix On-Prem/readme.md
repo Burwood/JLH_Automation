@@ -4,8 +4,8 @@ This project will provision and configure a Citrix Virtual Apps & Desktops envir
 
 This is my first run at automating documentation from multiple stages.  Currently, a markdown formated document (like this readme!) is built via outputs from the Terraform script, and then running Carl Webster's CVAD powershell documentation script via Ansible.  A future project will be to append markdown output to Carl's documentation scripts instead of trying to parse and hack the text or HTML outputs.  
 
-Process Workflow: \
-![](tf_workflow.png)
+Process Workflow:
+<p align="center"><img src=workflow.png></p>
 
 ## Pre-requisites
 - A Windows Server 2019 VM template in vSphere

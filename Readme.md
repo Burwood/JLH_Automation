@@ -90,17 +90,34 @@ You will see output similar to the following.  Make sure to save the 20byte hex 
 	uid                      James Heistand <jheistand@burwood.com>
 	sub   rsa3072 2020-12-14 [E] [expires: 2022-12-14]
 
-Add your GPG key to your bash profile for programs to autmatically use it.  4 hex bytes are represented by 8 hex (base-16) bits.  \
+
+Add your GPG key to your bash profile for programs to autmatically use it. 4 hex bytes are represented by 8 hex (base-16) bits. \
+
 Example: A1B2C3D4 is 4 bytes in hex.
 
 ```bash
 echo "export GPGKEY=<last 4hex bytes>" >> ~/.profile
 ```
 
-Setup pass, a simple CLI based password vault.  
+Setup pass, a simple CLI based password vault.
 
 ```bash
 pass init "<last 4hex bytes>"
+```
+
+Create a test entry/secret pair in the pass database.
+
+```bash
+pass insert testuser
+   Enter password for testuser: testuser@lab.local
+   Retype password for testuser: testuser@lab.local
+```
+
+Test secret retrieval
+
+```bash
+pass testuser
+   testuser@lab.local
 ```
 
 ### Install an editor (optional)
