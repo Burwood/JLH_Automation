@@ -3,7 +3,7 @@ This example project will use Terraform to provision a VM to on-prem vSphere, re
 
 ## Project workflow
 This project only uses Terraform, but a full Infrastructure as Code (IaC) solution would include the Ansible process flow.
-![](workflow.png)
+<p align="center"><img src=workflow.png></p>
 
 ## Pre-requisites
 - A Windows Server 2019 template in vSphere
