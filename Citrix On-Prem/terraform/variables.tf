@@ -26,6 +26,7 @@ variable "vsphere_rp" {
 
 variable "vsphere_folder" {
   description = "vsphere folder path"
+  type        = string
 }
 
 variable "vsphere_template" {
