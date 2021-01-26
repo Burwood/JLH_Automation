@@ -1,8 +1,4 @@
 # ----------------------- Azure azure.tfvars ----------------------------------
-# Azure Provider variables
-tenant_id        = "384c717a-6a82-4caf-bb06-b831ebf5dae6"
-subscription_id  = "2c5cab23-b551-49f7-92fd-ae11d23e30a0"
-
 # Resource variables
 resourcename     = "template-rg"
 region           = "Central US"
@@ -28,4 +24,4 @@ vm_version       = "latest"
 # Public IP variables
 #pubip_name       = ""
 #pubip_allocation = "dyanmic"
-#nic_ip_name      = "
+#nic_ip_name      = ""
