@@ -2,11 +2,13 @@
 # Azure Provider variables 
 variable "tenant_id" {
   type = string
+  sensitive = true
   description = "Azure Tenant ID" 
 }
 
 variable "subscription_id" {
   type = string
+  sensitive = true
   description = "Azure Subscription ID" 
 }
 
@@ -103,10 +105,12 @@ variable "vm_version" {
 
 variable "adminuser" {
   type = string
+  sensitive = true
   description = "Account to create on VM"
 }
 
 variable "adminpass" {
   type = string
+  sensitive = true
   description = "Password for admin user"
 }
