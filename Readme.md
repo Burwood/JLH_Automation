@@ -130,3 +130,7 @@ Sublime Text: https://www.sublimetext.com/
 
 ---
 
+## Other projects
+[Citrix VAD on-prem deployment](https://github.com/Burwood/JLH_Automation/tree/master/Citrix%20On-Prem) \
+[Azure Terraform Template](https://github.com/Burwood/JLH_Automation/tree/Azure)
+
